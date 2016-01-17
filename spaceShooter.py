@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # @Author: tasdik
 # @Date:   2016-01-17
-# @Email:  prodicus@outlook.com
+# @Email:  prodicus@outlook.com  Github username: @prodicus
 # @Last Modified by:   tasdik
 # @Last Modified time: 2016-01-17
 # MIT License. You can find a copy of the License @ http://prodicus.mit-license.org
@@ -66,6 +66,15 @@ def draw_shield_bar(surf, x, y, pct):
     pygame.draw.rect(surf, WHITE, outline_rect, 2)
 
 
+def draw_lives(surf, x, y, lives, img):
+    for i in range(lives):
+        img_rect= img.get_rect()
+        img_rect.x = x + 30 * i
+        img_rect.y = y
+        surf.blit(img, img_rect)
+
+
+
 def newmob():
     mob_element = Mob()
     all_sprites.add(mob_element)
@@ -83,8 +92,19 @@ class Player(pygame.sprite.Sprite):
         self.rect.bottom = HEIGHT - 10
         self.speedx = 0 
         self.shield = 100
+        self.shoot_delay = 250
+        self.last_shot = pygame.time.get_ticks()
+        self.lives = 3
+        self.hidden = False
+        self.hide_timer = pygame.time.get_ticks()
 
     def update(self):
+        ## unhide 
+        if self.hidden and pygame.time.get_ticks() - self.hide_timer > 1000:
+            self.hidden = False
+            self.rect.centerx = WIDTH / 2
+            self.rect.bottom = HEIGHT - 30
+
         self.speedx = 0     ## makes the player static in the screen by default. 
         # then we have to check whether there is an event hanlding being done for the arrow keys being 
         ## pressed 
@@ -96,6 +116,9 @@ class Player(pygame.sprite.Sprite):
         if keystate[pygame.K_RIGHT]:
             self.speedx = 5
 
+        if keystate[pygame.K_SPACE]:
+            self.shoot()
+
         ## check for the borders at the left and right
         if self.rect.right > WIDTH:
             self.rect.right = WIDTH
@@ -106,10 +129,18 @@ class Player(pygame.sprite.Sprite):
 
     def shoot(self):
         ## to tell the bullet where to spawn
-        bullet = Bullet(self.rect.centerx, self.rect.top)
-        all_sprites.add(bullet)
-        bullets.add(bullet)
-        shooting_sound.play()
+        now = pygame.time.get_ticks()
+        if now - self.last_shot > self.shoot_delay:
+            self.last_shot = now
+            bullet = Bullet(self.rect.centerx, self.rect.top)
+            all_sprites.add(bullet)
+            bullets.add(bullet)
+            shooting_sound.play()
+
+    def hide(self):
+        self.hidden = True
+        self.hide_timer = pygame.time.get_ticks()
+        self.rect.center = (WIDTH / 2, HEIGHT + 200)
 
 
 # defines the enemies
@@ -188,6 +219,8 @@ background_rect = background.get_rect()
 ## ^^ draw this rect first 
 
 player_img = pygame.image.load(path.join(img_dir, 'playerShip1_orange.png')).convert()
+player_mini_img = pygame.transform.scale(player_img, (25, 19))
+player_mini_img.set_colorkey(BLACK)
 bullet_img = pygame.image.load(path.join(img_dir, 'laserRed16.png')).convert()
 # meteor_img = pygame.image.load(path.join(img_dir, 'meteorBrown_med1.png')).convert()
 meteor_images = []
@@ -203,7 +236,6 @@ meteor_list = [
 
 for image in meteor_list:
     meteor_images.append(pygame.image.load(path.join(img_dir, image)).convert())
-
 ###################################################
 
 
@@ -253,10 +285,10 @@ while running:
         ## listening for the the X button at the top
         if event.type == pygame.QUIT:
             running = False
-        ## event for shooting the bullets
-        elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_SPACE:
-                player.shoot()      ## we have to define the shoot()  function
+        # ## event for shooting the bullets
+        # elif event.type == pygame.KEYDOWN:
+        #     if event.key == pygame.K_SPACE:
+        #         player.shoot()      ## we have to define the shoot()  function
 
     #2 Update
     all_sprites.update()
@@ -284,7 +316,13 @@ while running:
         player.shield -= hit.radius * 2
         newmob()
         if player.shield <= 0: 
-            running = False     ## GAME OVER 3:D
+            # running = False     ## GAME OVER 3:D
+            player.hide()
+            player.lives -= 1
+            player.shield = 100
+
+    if player.lives == 0:
+        running = False
 
     #3 Draw/render
     screen.fill(BLACK)
@@ -294,6 +332,9 @@ while running:
     all_sprites.draw(screen)
     draw_text(screen, str(score), 18, WIDTH / 2, 10)     ## 10px down from the screen
     draw_shield_bar(screen, 5, 5, player.shield)
+
+    # Draw lives
+    draw_lives(screen, WIDTH - 100, 5, player.lives, player_mini_img)
 
     ## Done after drawing everything to the screen
     pygame.display.flip()       
