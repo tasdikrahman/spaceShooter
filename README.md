@@ -1,6 +1,6 @@
 ## Space Shooter
 
-The classic retro game recreated using `Pygame` and `python`
+The classic retro game recreated using `Pygame` and `python`.
 
 ## Demo
 
@@ -10,6 +10,19 @@ The classic retro game recreated using `Pygame` and `python`
 
 | ![Screen 1](http://i.imgur.com/I5mTBFB.png) | ![Screen 2](http://i.imgur.com/4OgIByR.png) |
 |---------------------------------------------|---------------------------------------------|
+
+## Game Features
+
+- Health bar for the space ship
+- Power ups like
+  - shield: increases the space ships life
+  - bolt: increases the shooting capability of the ship by firing 2 bullets instead of one at time.
+- Custom sounds and sprite animation for things like
+  - meteorite explosion
+  - bullet shoots
+  - player explosion
+- 3 lives per game
+- Fun to play :)
 
 ## Installation
 
@@ -54,6 +67,8 @@ $ git clone https://github.com/prodicus/spaceShooter.git
 $ cd spaceShooter/
 $ python spaceShooter.py
 ```
+
+This game was written in one day, so the coding standards might not be up the mark.
 
 Enjoy the game :smile:
 
