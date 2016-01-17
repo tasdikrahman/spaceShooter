@@ -22,6 +22,7 @@ BLACK = (0, 0, 0)
 RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
+YELLOW = (255, 255, 0)
 ###############################
 
 ###############################
@@ -65,6 +66,12 @@ class Player(pygame.sprite.Sprite):
 
         self.rect.x += self.speedx
 
+    def shoot(self):
+        ## to tell the bullet where to spawn
+        bullet = Bullet(self.rect.centerx, self.rect.top)
+        all_sprites.add(bullet)
+        bullets.add(bullet)
+
 
 # defines the enemies
 class Mob(pygame.sprite.Sprite):
@@ -91,6 +98,31 @@ class Mob(pygame.sprite.Sprite):
             self.speedy = random.randrange(1, 8)        ## for randomizing the speed of the Mob
             
 
+## defines the sprite for bullets
+class Bullet(pygame.sprite.Sprite):
+    def __init__(self, x, y):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.Surface((10, 20))
+        self.image.fill(YELLOW)
+        self.rect = self.image.get_rect()
+        ## place the bullet according to the current position of the player
+        self.rect.bottom = y 
+        self.rect.centerx = x
+        self.speedy = -10
+
+    def update(self):
+        """should spawn right in front of the player"""
+        self.rect.y += self.speedy
+        ## kill the sprite after it moves over the top border
+        if self.rect.bottom < 0:
+            self.kill()
+
+        ## now we need a way to shoot
+        ## lets bind it to "spacebar".
+        ## adding an event for it in Game loop
+
+
+
 ## group all the sprites together for ease of update
 all_sprites = pygame.sprite.Group()
 player = Player()
@@ -103,23 +135,45 @@ for i in range(8):      ## 8 mobs
     all_sprites.add(mob_element)
     mobs.add(mob_element)
 
+## group for bullets
+bullets = pygame.sprite.Group()
+
+#############################
 ## Game loop
 running = True
 while running:
-
     #1 Process input/events
     clock.tick(FPS)     ## will make the loop run at the same speed all the time
     for event in pygame.event.get():        # gets all the events which have occured till now and keeps tab of them.
         ## listening for the the X button at the top
         if event.type == pygame.QUIT:
             running = False
-
-
-
+        ## event for shooting the bullets
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE:
+                player.shoot()      ## we have to define the shoot()  function
 
     #2 Update
     all_sprites.update()
 
+
+    ## check if a bullet hit a mob
+    ## now we have a group of bullets and a group of mob
+    hits = pygame.sprite.groupcollide(mobs, bullets, True, True)
+    ## now as we delete the mob element when we hit one with a bullet, we need to respawn them again
+    ## as there will be no mob_elements left out 
+    for hit in hits:
+        m = Mob()
+        all_sprites.add(m)
+        mobs.add(m)
+
+    ## ^^ the above loop will create the amount of mob objects which were killed spawn again
+    #########################
+
+    ## check if the player collides with the mob
+    hits = pygame.sprite.spritecollide(player, mobs, False)        ## gives back a list 
+    if hits:
+        running = False     ## GAME OVER 3:D
 
     #3 Draw/render
     screen.fill(BLACK)
