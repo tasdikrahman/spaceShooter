@@ -8,7 +8,58 @@ The classic retro game recreated using `Pygame` and `python`
 
 ## Installation
 
+### OS X and Linux based systems
 
+#### Option 1: Download the Executable file
+
+Download the [latest Executable file](https://github.com/prodicus/vocabulary/releases/latest) 
+
+#### Option 2: Run the source
+
+You need to have `pygame` installed for this option
+
+##### Ubuntu/Debian
+
+```bash
+$ sudo apt-get install python-pygame
+```
+
+##### OS X
+
+```bash
+$ pip3 install hg+http://bitbucket.org/pygame/pygame
+```
+
+Install Pygame specific dependencies
+
+```bash
+$ brew install sdl sdl_image sdl_ttf portmidi libogg libvorbis
+$ brew install sdl_mixer --with-libvorbis
+```
+
+##### Clone the repo
+
+```bash
+$ git clone https://github.com/prodicus/spaceShooter.git
+$ cd spaceShooter/
+$ python spaceShooter.py
+```
+
+Enjoy the game :smile:
+
+## To-do:
+
+- [ ] Add the windows executable file
+- [ ] Add main menu for the game
+- [ ] Fix bug which stops the background music from looping 
+
+## Contributing
+
+Please refer [Contributing page for details](https://github.com/prodicus/spaceShooter/blob/master/CONTRIBUTING.rst)
+
+## Issues
+
+Please report the bugs at the [issue tracker](https://github.com/prodicus/spaceShooter/issues)
 
 ## License
 
