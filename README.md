@@ -4,11 +4,19 @@ The classic retro game recreated using `Pygame` and `python`
 
 ## Demo
 
+Demo video to be uploaded soon
 
+## Screenshots
+
+| ![Screen 1](http://i.imgur.com/I5mTBFB.png) | ![Screen 2](http://i.imgur.com/4OgIByR.png) |
+|---------------------------------------------|---------------------------------------------|
 
 ## Installation
 
-### OS X and Linux based systems
+**NOTE**: 
+The windows executable has not been uploaded yet
+
+Currently supports `MAC OS X` and `Linux/Debian` based systems
 
 #### Option 1: Download the Executable file
 
