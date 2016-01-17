@@ -39,6 +39,15 @@ pygame.display.set_caption("Space Shooter")
 clock = pygame.time.Clock()     ## For syncing the FPS
 ###############################
 
+font_name = pygame.font.match_font('arial')
+
+def draw_text(surf, text, size, x, y):
+    ## selecting a cross platform font to display the score
+    font = pygame.font.Font(font_name, size)
+    text_surface = font.render(text, True, WHITE)       ## True denotes the font to be anti-aliased 
+    text_rect = text_surface.get_rect()
+    text_rect.midtop = (x, y)
+    surf.blit(text_surface, text_rect)
 
 class Player(pygame.sprite.Sprite):
     def __init__(self):
@@ -188,6 +197,10 @@ for i in range(8):      ## 8 mobs
 ## group for bullets
 bullets = pygame.sprite.Group()
 
+
+#### Score board variable
+score = 0
+
 #############################
 ## Game loop
 running = True
@@ -213,6 +226,7 @@ while running:
     ## now as we delete the mob element when we hit one with a bullet, we need to respawn them again
     ## as there will be no mob_elements left out 
     for hit in hits:
+        score += 50 - hit.radius         ## give different scores for hitting big and small metoers
         m = Mob()
         all_sprites.add(m)
         mobs.add(m)
@@ -231,7 +245,7 @@ while running:
     screen.blit(background, background_rect)
 
     all_sprites.draw(screen)
-
+    draw_text(screen, str(score), 18, WIDTH / 2, 10)     ## 10px down from the screen
 
     ## Done after drawing everything to the screen
     pygame.display.flip()       
