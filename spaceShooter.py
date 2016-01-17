@@ -53,6 +53,24 @@ def draw_text(surf, text, size, x, y):
     text_rect.midtop = (x, y)
     surf.blit(text_surface, text_rect)
 
+
+def draw_shield_bar(surf, x, y, pct):
+    if pct < 0:
+        pct = 0 
+    BAR_LENGTH = 100
+    BAR_HEIGHT = 10
+    fill = (pct / 100) * BAR_LENGTH
+    outline_rect = pygame.Rect(x, y, BAR_LENGTH, BAR_HEIGHT)
+    fill_rect = pygame.Rect(x, y, fill, BAR_HEIGHT)
+    pygame.draw.rect(surf, GREEN, fill_rect)
+    pygame.draw.rect(surf, WHITE, outline_rect, 2)
+
+
+def newmob():
+    mob_element = Mob()
+    all_sprites.add(mob_element)
+    mobs.add(mob_element)
+
 class Player(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
@@ -64,6 +82,7 @@ class Player(pygame.sprite.Sprite):
         self.rect.centerx = WIDTH / 2
         self.rect.bottom = HEIGHT - 10
         self.speedx = 0 
+        self.shield = 100
 
     def update(self):
         self.speedx = 0     ## makes the player static in the screen by default. 
@@ -207,9 +226,10 @@ all_sprites.add(player)
 ## spawn a group of mob
 mobs = pygame.sprite.Group()
 for i in range(8):      ## 8 mobs
-    mob_element = Mob()
-    all_sprites.add(mob_element)
-    mobs.add(mob_element)
+    # mob_element = Mob()
+    # all_sprites.add(mob_element)
+    # mobs.add(mob_element)
+    newmob()
 
 ## group for bullets
 bullets = pygame.sprite.Group()
@@ -217,7 +237,11 @@ bullets = pygame.sprite.Group()
 
 #### Score board variable
 score = 0
-pygame.mixer.music.play(loops=-1)
+
+## TODO: make the game music loop over again and again. play(loops=-1) is not working
+# Error : 
+# TypeError: play() takes no keyword arguments
+pygame.mixer.music.play()
 
 #############################
 ## Game loop
@@ -246,17 +270,21 @@ while running:
     for hit in hits:
         score += 50 - hit.radius         ## give different scores for hitting big and small metoers
         random.choice(expl_sounds).play()
-        m = Mob()
-        all_sprites.add(m)
-        mobs.add(m)
+        # m = Mob()
+        # all_sprites.add(m)
+        # mobs.add(m)
+        newmob()        ## spawn a new mob
 
     ## ^^ the above loop will create the amount of mob objects which were killed spawn again
     #########################
 
     ## check if the player collides with the mob
-    hits = pygame.sprite.spritecollide(player, mobs, False, pygame.sprite.collide_circle)        ## gives back a list 
-    if hits:
-        running = False     ## GAME OVER 3:D
+    hits = pygame.sprite.spritecollide(player, mobs, True, pygame.sprite.collide_circle)        ## gives back a list, True makes the mob element disappear
+    for hit in hits:
+        player.shield -= hit.radius * 2
+        newmob()
+        if player.shield <= 0: 
+            running = False     ## GAME OVER 3:D
 
     #3 Draw/render
     screen.fill(BLACK)
@@ -265,6 +293,7 @@ while running:
 
     all_sprites.draw(screen)
     draw_text(screen, str(score), 18, WIDTH / 2, 10)     ## 10px down from the screen
+    draw_shield_bar(screen, 5, 5, player.shield)
 
     ## Done after drawing everything to the screen
     pygame.display.flip()       
