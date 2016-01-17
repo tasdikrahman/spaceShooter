@@ -7,12 +7,16 @@
 # @Last Modified time: 2016-01-17
 # MIT License. You can find a copy of the License @ http://prodicus.mit-license.org
 
+## Game music Attribution
+##Frozen Jam by tgfcoder <https://twitter.com/tgfcoder> licensed under CC-BY-3 <http://creativecommons.org/licenses/by/3.0/>
+
 import pygame
 import random
 from os import path
 
 ## assets folder
 img_dir = path.join(path.dirname(__file__), 'assets')
+sound_folder = path.join(path.dirname(__file__), 'sounds')
 
 ###############################
 ## to be placed in "constant.py" later
@@ -86,6 +90,7 @@ class Player(pygame.sprite.Sprite):
         bullet = Bullet(self.rect.centerx, self.rect.top)
         all_sprites.add(bullet)
         bullets.add(bullet)
+        shooting_sound.play()
 
 
 # defines the enemies
@@ -182,6 +187,18 @@ for image in meteor_list:
 
 ###################################################
 
+
+###################################################
+### Load all game sounds
+shooting_sound = pygame.mixer.Sound(path.join(sound_folder, 'pew.wav'))
+expl_sounds = []
+for sound in ['expl3.wav', 'expl6.wav']:
+    expl_sounds.append(pygame.mixer.Sound(path.join(sound_folder, sound)))
+## main background music
+pygame.mixer.music.load(path.join(sound_folder, 'tgfcoder-FrozenJam-SeamlessLoop.ogg'))
+pygame.mixer.music.set_volume(0.2)
+###################################################
+
 ## group all the sprites together for ease of update
 all_sprites = pygame.sprite.Group()
 player = Player()
@@ -200,6 +217,7 @@ bullets = pygame.sprite.Group()
 
 #### Score board variable
 score = 0
+pygame.mixer.music.play(loops=-1)
 
 #############################
 ## Game loop
@@ -227,6 +245,7 @@ while running:
     ## as there will be no mob_elements left out 
     for hit in hits:
         score += 50 - hit.radius         ## give different scores for hitting big and small metoers
+        random.choice(expl_sounds).play()
         m = Mob()
         all_sprites.add(m)
         mobs.add(m)
