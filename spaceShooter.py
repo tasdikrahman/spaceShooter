@@ -80,6 +80,31 @@ def newmob():
     all_sprites.add(mob_element)
     mobs.add(mob_element)
 
+class Explosion(pygame.sprite.Sprite):
+    def __init__(self, center, size):
+        pygame.sprite.Sprite.__init__(self)
+        self.size = size
+        self.image = explosion_anim[self.size][0]
+        self.rect = self.image.get_rect()
+        self.rect.center = center
+        self.frame = 0 
+        self.last_update = pygame.time.get_ticks()
+        self.frame_rate = 75
+
+    def update(self):
+        now = pygame.time.get_ticks()
+        if now - self.last_update > self.frame_rate:
+            self.last_update = now
+            self.frame += 1
+            if self.frame == len(explosion_anim[self.size]):
+                self.kill()
+            else:
+                center = self.rect.center
+                self.image = explosion_anim[self.size][self.frame]
+                self.rect = self.image.get_rect()
+                self.rect.center = center
+
+
 class Player(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
@@ -236,6 +261,28 @@ meteor_list = [
 
 for image in meteor_list:
     meteor_images.append(pygame.image.load(path.join(img_dir, image)).convert())
+
+## meteor explosion
+explosion_anim = {}
+explosion_anim['lg'] = []
+explosion_anim['sm'] = []
+explosion_anim['player'] = []
+for i in range(9):
+    filename = 'regularExplosion0{}.png'.format(i)
+    img = pygame.image.load(path.join(img_dir, filename)).convert()
+    img.set_colorkey(BLACK)
+    ## resize the explosion
+    img_lg = pygame.transform.scale(img, (75, 75))
+    explosion_anim['lg'].append(img_lg)
+    img_sm = pygame.transform.scale(img, (32, 32))
+    explosion_anim['sm'].append(img_sm)
+
+    ## player explosion
+    filename = 'sonicExplosion0{}.png'.format(i)
+    img = pygame.image.load(path.join(img_dir, filename)).convert()
+    img.set_colorkey(BLACK)
+    explosion_anim['player'].append(img)
+
 ###################################################
 
 
@@ -248,6 +295,8 @@ for sound in ['expl3.wav', 'expl6.wav']:
 ## main background music
 pygame.mixer.music.load(path.join(sound_folder, 'tgfcoder-FrozenJam-SeamlessLoop.ogg'))
 pygame.mixer.music.set_volume(0.2)
+
+player_die_sound = pygame.mixer.Sound(path.join(sound_folder, 'rumble1.ogg'))
 ###################################################
 
 ## group all the sprites together for ease of update
@@ -305,6 +354,8 @@ while running:
         # m = Mob()
         # all_sprites.add(m)
         # mobs.add(m)
+        expl = Explosion(hit.rect.center, 'lg')
+        all_sprites.add(expl)
         newmob()        ## spawn a new mob
 
     ## ^^ the above loop will create the amount of mob objects which were killed spawn again
@@ -314,14 +365,20 @@ while running:
     hits = pygame.sprite.spritecollide(player, mobs, True, pygame.sprite.collide_circle)        ## gives back a list, True makes the mob element disappear
     for hit in hits:
         player.shield -= hit.radius * 2
+        expl = Explosion(hit.rect.center, 'sm')
+        all_sprites.add(expl)
         newmob()
         if player.shield <= 0: 
+            player_die_sound.play()
+            death_explosion = Explosion(player.rect.center, 'player')
+            all_sprites.add(death_explosion)
             # running = False     ## GAME OVER 3:D
             player.hide()
             player.lives -= 1
             player.shield = 100
 
-    if player.lives == 0:
+    ## if player died and the explosion has finished, end game
+    if player.lives == 0 and not death_explosion.alive():
         running = False
 
     #3 Draw/render
