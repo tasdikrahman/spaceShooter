@@ -15,7 +15,7 @@ from os import path
 img_dir = path.join(path.dirname(__file__), 'assets')
 
 ###############################
-## placed in "constant.py"
+## to be placed in "constant.py" later
 WIDTH = 480
 HEIGHT = 600
 FPS = 60
@@ -30,7 +30,7 @@ YELLOW = (255, 255, 0)
 ###############################
 
 ###############################
-## placed in "__init__.py"
+## to placed in "__init__.py" later
 ## initialize pygame and create window
 pygame.init()
 pygame.mixer.init()  ## For sound
@@ -47,6 +47,7 @@ class Player(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(player_img, (50, 38))
         self.image.set_colorkey(BLACK)
         self.rect = self.image.get_rect()
+        self.radius = 20
         self.rect.centerx = WIDTH / 2
         self.rect.bottom = HEIGHT - 10
         self.speedx = 0 
@@ -85,6 +86,7 @@ class Mob(pygame.sprite.Sprite):
         self.image = meteor_img
         self.image.set_colorkey(BLACK)
         self.rect = self.image.get_rect()
+        self.radius = int(self.rect.width *.90 / 2)
         self.rect.x = random.randrange(0, WIDTH - self.rect.width)
         self.rect.y = random.randrange(-100, -40)
         self.speedy = random.randrange(1, 8)        ## for randomizing the speed of the Mob
@@ -188,7 +190,7 @@ while running:
     #########################
 
     ## check if the player collides with the mob
-    hits = pygame.sprite.spritecollide(player, mobs, False)        ## gives back a list 
+    hits = pygame.sprite.spritecollide(player, mobs, False, pygame.sprite.collide_circle)        ## gives back a list 
     if hits:
         running = False     ## GAME OVER 3:D
 
