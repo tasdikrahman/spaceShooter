@@ -14,6 +14,7 @@ The classic retro game recreated using `Pygame` and `python`.
 ## Game Features
 
 - Health bar for the space ship
+- Score board to show how you are faring so far
 - Power ups like
   - shield: increases the space ships life
   - bolt: increases the shooting capability of the ship by firing 2 bullets instead of one at time.
@@ -28,16 +29,19 @@ The classic retro game recreated using `Pygame` and `python`.
 
 ### For `Windows`
 
-- Download the prebuilt `zip file` [from here](https://github.com/prodicus/spaceShooter/releases/download/v0.0.1/windows_exe.zip)
+- Download the prebuilt `zip file` [from here](https://github.com/prodicus/spaceShooter/releases/download/v0.0.1/spaceShooter-0.0.1-windows.zip)
 - Unzip it and run the executable named `spaceShooter`
 
 ### For `MAC OS X` and `Linux/Debian` based systems
 
 #### Option 1: Download the Executable file
 
-Download the [latest Executable file](https://github.com/prodicus/vocabulary/releases/latest) 
+- Download the [latest zip file](https://github.com/prodicus/spaceShooter/releases/download/v0.0.1/SpaceShooter-0.0.1.Linux.zip)
+- Run the executable named `spaceShooter`
 
-#### Option 2: Run the source
+**NOTE** : Make `spaceShooter` executable by doing a `chmod +x spaceShooter`
+
+#### Option 2: Build from source
 
 You need to have `pygame` installed for this option
 
@@ -64,7 +68,7 @@ $ brew install sdl_mixer --with-libvorbis
 
 ```bash
 $ git clone https://github.com/prodicus/spaceShooter.git
-$ cd spaceShooter/
+$ cd spaceShooter/ 
 $ python spaceShooter.py
 ```
 
