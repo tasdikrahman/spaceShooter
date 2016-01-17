@@ -4,7 +4,7 @@ The classic retro game recreated using `Pygame` and `python`
 
 ## Demo
 
-Demo video to be uploaded soon
+[![Space Shooter Demo - Youtube](http://i.imgur.com/bHjlJfG.jpg)](https://www.youtube.com/watch?v=o99zpLsM-ZI)
 
 ## Screenshots
 
@@ -13,10 +13,12 @@ Demo video to be uploaded soon
 
 ## Installation
 
-**NOTE**: 
-The windows executable has not been uploaded yet
+### For `Windows`
 
-Currently supports `MAC OS X` and `Linux/Debian` based systems
+- Download the prebuilt `zip file` [from here](https://github.com/prodicus/spaceShooter/releases/download/v0.0.1/windows_exe.zip)
+- Unzip it and run the executable named `spaceShooter`
+
+### For `MAC OS X` and `Linux/Debian` based systems
 
 #### Option 1: Download the Executable file
 
@@ -57,7 +59,7 @@ Enjoy the game :smile:
 
 ## To-do:
 
-- [ ] Add the windows executable file
+- [x] Add the windows executable file
 - [ ] Add main menu for the game
 - [ ] Fix bug which stops the background music from looping 
 
