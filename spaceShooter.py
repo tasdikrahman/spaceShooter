@@ -9,6 +9,10 @@
 
 import pygame
 import random
+from os import path
+
+## assets folder
+img_dir = path.join(path.dirname(__file__), 'assets')
 
 ###############################
 ## placed in "constant.py"
@@ -39,8 +43,9 @@ clock = pygame.time.Clock()     ## For syncing the FPS
 class Player(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface((50, 40))     ## 50px wide and 40px tall
-        self.image.fill(GREEN)
+        ## scale the player img down
+        self.image = pygame.transform.scale(player_img, (50, 38))
+        self.image.set_colorkey(BLACK)
         self.rect = self.image.get_rect()
         self.rect.centerx = WIDTH / 2
         self.rect.bottom = HEIGHT - 10
@@ -77,8 +82,8 @@ class Player(pygame.sprite.Sprite):
 class Mob(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface((30, 40))
-        self.image.fill(RED)
+        self.image = meteor_img
+        self.image.set_colorkey(BLACK)
         self.rect = self.image.get_rect()
         self.rect.x = random.randrange(0, WIDTH - self.rect.width)
         self.rect.y = random.randrange(-100, -40)
@@ -102,8 +107,8 @@ class Mob(pygame.sprite.Sprite):
 class Bullet(pygame.sprite.Sprite):
     def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface((10, 20))
-        self.image.fill(YELLOW)
+        self.image = bullet_img
+        self.image.set_colorkey(BLACK)
         self.rect = self.image.get_rect()
         ## place the bullet according to the current position of the player
         self.rect.bottom = y 
@@ -122,6 +127,18 @@ class Bullet(pygame.sprite.Sprite):
         ## adding an event for it in Game loop
 
 
+###################################################
+## Load all game images
+
+background = pygame.image.load(path.join(img_dir, 'starfield.png')).convert()
+background_rect = background.get_rect()
+## ^^ draw this rect first 
+
+player_img = pygame.image.load(path.join(img_dir, 'playerShip1_orange.png')).convert()
+meteor_img = pygame.image.load(path.join(img_dir, 'meteorBrown_med1.png')).convert()
+bullet_img = pygame.image.load(path.join(img_dir, 'laserRed16.png')).convert()
+
+###################################################
 
 ## group all the sprites together for ease of update
 all_sprites = pygame.sprite.Group()
@@ -177,13 +194,11 @@ while running:
 
     #3 Draw/render
     screen.fill(BLACK)
+    ## draw the stargaze.png image
+    screen.blit(background, background_rect)
+
     all_sprites.draw(screen)
 
-    ########################
-
-    ### Your code comes here
-
-    ########################
 
     ## Done after drawing everything to the screen
     pygame.display.flip()       
