@@ -38,14 +38,14 @@ Follow the youtube video to see how I fared on ``spaceShooter``
 
 ### For `Windows`
 
-- Download the prebuilt `zip file` [from here](https://github.com/prodicus/spaceShooter/releases/download/v0.0.1/spaceShooter-0.0.1-windows.zip) and extract the file to your preferred destination by using [7-zip](http://www.7-zip.org/download.html) or [winzip](http://www.winzip.com/prod_down.html) or any other similar program of your choice.
+- Download the prebuilt `zip file` [from here](https://github.com/prodicus/spaceShooter/releases/download/v0.0.2/spaceShooter-v0.0.2_windows.zip) and extract the file to your preferred destination by using [7-zip](http://www.7-zip.org/download.html) or [winzip](http://www.winzip.com/prod_down.html) or any other similar program of your choice.
 - Run the executable named `spaceShooter` inside the extracted file.
 
 ### For `MAC OS X` and `Linux/Debian` based systems
 
 #### Option 1: Download the zipped executable file
 
-- Download the [latest zip file](https://github.com/prodicus/spaceShooter/releases/download/v0.0.1/SpaceShooter-0.0.1.Linux.zip)
+- Download the [latest zip file](https://github.com/prodicus/spaceShooter/releases/download/v0.0.2/spaceShooter-v0.0.2_linux.zip)
 - Unzip the file
 
 If your download was saved on the `~/Downloads` folder

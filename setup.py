@@ -15,7 +15,7 @@ if sys.platform == "win32":
 ## A fix for this would be released
 
 setup(  name = "Space Shooter",
-        version = "0.0.1",
+        version = "0.0.2",
         description = "classic retro game made using pygame",
         options = {"build_exe": build_exe_options},
         executables = [Executable("spaceShooter.py", base=base)]

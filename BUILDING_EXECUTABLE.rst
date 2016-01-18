@@ -16,6 +16,14 @@ This will create an executable and place it inside the directory ``dist``
 
 2. Place the folders ``assets`` and ``sounds`` together with the excutable inside a single folder and zip it.
 
+For example for ``v0.0.2``
+
+.. code:: bash
+
+    $ ls spaceShooter/
+    assets  BUILDING_EXECUTABLE.rst  CONTRIBUTING.rst  LICENSE.txt  README.md  sounds  spaceShooter
+    $ zip -r spaceShooter-v0.0.2_linux.zip spaceShooter/
+
 For ``Windows`` based systems
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
