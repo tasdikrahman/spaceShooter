@@ -4,7 +4,7 @@
 # @Date:   2016-01-17
 # @Email:  prodicus@outlook.com  Github username: @prodicus
 # @Last Modified by:   tasdik
-# @Last Modified time: 2016-01-17
+# @Last Modified time: 2016-01-18
 # MIT License. You can find a copy of the License @ http://prodicus.mit-license.org
 
 ## Game music Attribution
@@ -200,7 +200,7 @@ class Mob(pygame.sprite.Sprite):
         self.radius = int(self.rect.width *.90 / 2)
         self.rect.x = random.randrange(0, WIDTH - self.rect.width)
         self.rect.y = random.randrange(-150, -100)
-        self.speedy = random.randrange(1, 8)        ## for randomizing the speed of the Mob
+        self.speedy = random.randrange(5, 20)        ## for randomizing the speed of the Mob
 
         ## randomize the movements a little more 
         self.speedx = random.randrange(-3, 3)

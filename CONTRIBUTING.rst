@@ -5,6 +5,8 @@ Contributing
 
 2. Clone it 
 
+Make sure you have installed `pygame <http://pygame.org>`__ installed on your system
+
 create a `virtualenv <http://pypi.python.org/pypi/virtualenv>`__ 
 
 .. code:: bash

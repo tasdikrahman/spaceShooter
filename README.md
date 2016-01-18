@@ -4,6 +4,8 @@ The classic retro game recreated using `Pygame` and `python`.
 
 ## Demo
 
+Follow the youtube video to see how I fared on ``spaceShooter``
+
 [![Space Shooter Demo - Youtube](http://i.imgur.com/bHjlJfG.jpg)](https://www.youtube.com/watch?v=o99zpLsM-ZI)
 
 ## Screenshots
@@ -25,25 +27,54 @@ The classic retro game recreated using `Pygame` and `python`.
 - 3 lives per game
 - Fun to play :)
 
+## Controls
+
+- To move the spaceship 
+  - To left : <kbd>left</kbd>
+  - to right : <kbd>right</kbd>
+- To fire the bullets : <kbd>spacebar</kbd>
+
 ## Installation
 
 ### For `Windows`
 
-- Download the prebuilt `zip file` [from here](https://github.com/prodicus/spaceShooter/releases/download/v0.0.1/spaceShooter-0.0.1-windows.zip)
-- Unzip it and run the executable named `spaceShooter`
+- Download the prebuilt `zip file` [from here](https://github.com/prodicus/spaceShooter/releases/download/v0.0.1/spaceShooter-0.0.1-windows.zip) and extract the file to your preferred destination by using [7-zip](http://www.7-zip.org/download.html) or [winzip](http://www.winzip.com/prod_down.html) or any other similar program of your choice.
+- Run the executable named `spaceShooter` inside the extracted file.
 
 ### For `MAC OS X` and `Linux/Debian` based systems
 
-#### Option 1: Download the Executable file
+#### Option 1: Download the zipped executable file
 
 - Download the [latest zip file](https://github.com/prodicus/spaceShooter/releases/download/v0.0.1/SpaceShooter-0.0.1.Linux.zip)
+- Unzip the file
+
+If your download was saved on the `~/Downloads` folder
+
+Press <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>T</kbd> to open the shell if you are on `GNU/Linux` based systems and type
+
+```bash
+$ unzip SpaceShooter-0.0.1.Linux.zip -d ~/Desktop
+$ cd ~/Desktop
+~/Desktop $ chmod +x spaceShooter
+~/Desktop $ ./spaceShooter
+```
+
+This will unzip the file on your `Desktop`, you can replace it with the directory of your choice
+
+**NOTE** : If it gives you an error, you probably don't have `unzip` installed in your system.
+
+```bash
+$ sudo apt-get install unzip
+```
+That should fix the error.
+
 - Run the executable named `spaceShooter`
 
-**NOTE** : Make `spaceShooter` executable by doing a `chmod +x spaceShooter`
+A Similar process would be followed for `OS X`
 
 #### Option 2: Build from source
 
-You need to have `pygame` installed for this option
+You need to have `pygame` installed for this option. 
 
 ##### Ubuntu/Debian
 
@@ -72,23 +103,24 @@ $ cd spaceShooter/
 $ python spaceShooter.py
 ```
 
-This game was written in one day, so the coding standards might not be up the mark.
-
-Enjoy the game :smile:
+Enjoy the game!
 
 ## To-do:
 
 - [x] Add the windows executable file
 - [ ] Add main menu for the game
-- [ ] Fix bug which stops the background music from looping 
+- [ ] Fix [bug](https://github.com/prodicus/spaceShooter/blob/master/spaceShooter.py#L372) which stops the background music from looping 
+- [ ] add feature to replay the game after all players die
 
 ## Contributing
 
-Please refer [Contributing page for details](https://github.com/prodicus/spaceShooter/blob/master/CONTRIBUTING.rst)
+This game was written in one day, so the coding standards might not be up the mark. Don't be shy to make a Pull request :)
+
+For details, please refer [the Contributing page](https://github.com/prodicus/spaceShooter/blob/master/CONTRIBUTING.rst)
 
 ## Issues
 
-Please report the bugs at the [issue tracker](https://github.com/prodicus/spaceShooter/issues)
+You can report the bugs at the [issue tracker](https://github.com/prodicus/spaceShooter/issues)
 
 ## License
 
@@ -96,10 +128,8 @@ Please report the bugs at the [issue tracker](https://github.com/prodicus/spaceS
 
 You can find a copy of the License at http://prodicus.mit-license.org/
 
-The images used in the game are taken from [http://opengameart.org/](http://opengameart.org/), more particulary from the [Space shooter content pack](http://opengameart.org/content/space-shooter-redux) from [@kenney](http://opengameart.org/users/kenney).
+- The images used in the game are taken from [http://opengameart.org/](http://opengameart.org/), more particulary from the [Space shooter content pack](http://opengameart.org/content/space-shooter-redux) from [@kenney](http://opengameart.org/users/kenney).
 
 License for them is in `Public Domain`
 
-The game sounds were again taken from [http://opengameart.org/](http://opengameart.org/)
-
-- The game music, [Frozen Jam](http://opengameart.org/content/frozen-jam-seamless-loop) by [tgfcoder](https://twitter.com/tgfcoder) licensed under [CC-BY-3](http://creativecommons.org/licenses/by/3.0/)
+- The game sounds were again taken from [http://opengameart.org/](http://opengameart.org/). The game music, [Frozen Jam](http://opengameart.org/content/frozen-jam-seamless-loop) by [tgfcoder](https://twitter.com/tgfcoder) licensed under [CC-BY-3](http://creativecommons.org/licenses/by/3.0/)
