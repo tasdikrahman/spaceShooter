@@ -12,6 +12,7 @@ Follow the youtube video to see how I fared on ``spaceShooter``
 
 | ![Screen 1](http://i.imgur.com/I5mTBFB.png) | ![Screen 2](http://i.imgur.com/4OgIByR.png) |
 |---------------------------------------------|---------------------------------------------|
+| ![Screen 3](http://i.imgur.com/PFQJjE8.png) | ![Screen 4](http://i.imgur.com/lV4aIur.png) |
 
 ## Game Features
 
@@ -19,7 +20,7 @@ Follow the youtube video to see how I fared on ``spaceShooter``
 - Score board to show how you are faring so far
 - Power ups like
   - shield: increases the space ships life
-  - bolt: increases the shooting capability of the ship by firing 2 bullets instead of one at time.
+  - bolt: increases the shooting capability of the ship by firing 2 to 3 bullets instead of one at time.
 - Custom sounds and sprite animation for things like
   - meteorite explosion
   - bullet shoots
@@ -103,13 +104,24 @@ $ cd spaceShooter/
 $ python spaceShooter.py
 ```
 
+**NOTE** : For `OS X`. Try running from source if the executable doesn't work.
+
 Enjoy the game!
+
+## Known issues
+
+- The game music doesn't play on `OS X` as described in [#1](https://github.com/prodicus/spaceShooter/issues/1)
+
+## Contributers:
+
+- [@bardlean86](https://github.com/bardlean86/) for adding the third missile powerup.
 
 ## To-do:
 
 - [x] Add the windows executable file
 - [ ] Add main menu for the game
 - [ ] Fix [bug](https://github.com/prodicus/spaceShooter/blob/master/spaceShooter.py#L372) which stops the background music from looping 
+- [ ] Add support for `WAV` game music file as `ogg` format is not playable as described in [#1](https://github.com/prodicus/spaceShooter/issues/1)
 - [ ] add feature to replay the game after all players die
 
 ## Contributing
