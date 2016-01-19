@@ -170,7 +170,7 @@ class Player(pygame.sprite.Sprite):
                 all_sprites.add(bullet)
                 bullets.add(bullet)
                 shooting_sound.play()
-            if self.power >= 2:
+            if self.power == 2:
                 bullet1 = Bullet(self.rect.left, self.rect.centery)
                 bullet2 = Bullet(self.rect.right, self.rect.centery)
                 all_sprites.add(bullet1)
@@ -178,6 +178,20 @@ class Player(pygame.sprite.Sprite):
                 bullets.add(bullet1)
                 bullets.add(bullet2)
                 shooting_sound.play()
+
+            """ MOAR POWAH """
+            if self.power >= 3:
+                bullet1 = Bullet(self.rect.left, self.rect.centery)
+                bullet2 = Bullet(self.rect.right, self.rect.centery)
+                missile1 = Missile(self.rect.centerx, self.rect.top) # Missile shoots from center of ship
+                all_sprites.add(bullet1)
+                all_sprites.add(bullet2)
+                all_sprites.add(missile1)
+                bullets.add(bullet1)
+                bullets.add(bullet2)
+                bullets.add(missile1)
+                shooting_sound.play()
+                missile_sound.play()
 
     def powerup(self):
         self.power += 1
@@ -276,6 +290,23 @@ class Bullet(pygame.sprite.Sprite):
         ## lets bind it to "spacebar".
         ## adding an event for it in Game loop
 
+## FIRE ZE MISSILES
+class Missile(pygame.sprite.Sprite):
+    def __init__(self, x, y):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = missile_img
+        self.image.set_colorkey(BLACK)
+        self.rect = self.image.get_rect()
+        self.rect.bottom = y
+        self.rect.centerx = x
+        self.speedy = -10
+
+    def update(self):
+        """should spawn right in front of the player"""
+        self.rect.y += self.speedy
+        if self.rect.bottom < 0:
+            self.kill()
+
 
 ###################################################
 ## Load all game images
@@ -288,6 +319,7 @@ player_img = pygame.image.load(path.join(img_dir, 'playerShip1_orange.png')).con
 player_mini_img = pygame.transform.scale(player_img, (25, 19))
 player_mini_img.set_colorkey(BLACK)
 bullet_img = pygame.image.load(path.join(img_dir, 'laserRed16.png')).convert()
+missile_img = pygame.image.load(path.join(img_dir, 'missile.png')).convert_alpha()
 # meteor_img = pygame.image.load(path.join(img_dir, 'meteorBrown_med1.png')).convert()
 meteor_images = []
 meteor_list = [
@@ -336,6 +368,7 @@ powerup_images['gun'] = pygame.image.load(path.join(img_dir, 'bolt_gold.png')).c
 ###################################################
 ### Load all game sounds
 shooting_sound = pygame.mixer.Sound(path.join(sound_folder, 'pew.wav'))
+missile_sound = pygame.mixer.Sound(path.join(sound_folder, 'rocket.ogg'))
 expl_sounds = []
 for sound in ['expl3.wav', 'expl6.wav']:
     expl_sounds.append(pygame.mixer.Sound(path.join(sound_folder, sound)))
