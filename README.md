@@ -42,7 +42,14 @@ Follow the youtube video to see how I fared on ``spaceShooter``
 - Download the prebuilt `zip file` [from here](https://github.com/prodicus/spaceShooter/releases/download/v0.0.2/spaceShooter-v0.0.2_windows.zip) and extract the file to your preferred destination by using [7-zip](http://www.7-zip.org/download.html) or [winzip](http://www.winzip.com/prod_down.html) or any other similar program of your choice.
 - Run the executable named `spaceShooter` inside the extracted file.
 
-### For `MAC OS X` and `Linux/Debian` based systems
+### For `MAC OS X` 
+
+You have to build from source to get it up and running on `OS X`. Reason?
+I don't have an `OS X` system to build the executable! So I would love for a Pull request on that one.
+
+[Building from source will do the trick though](https://github.com/prodicus/spaceShooter#os-x)
+
+### `Linux/Debian` based systems
 
 #### Option 1: Download the zipped executable file
 
@@ -104,8 +111,6 @@ $ cd spaceShooter/
 $ python spaceShooter.py
 ```
 
-**NOTE** : For `OS X`. Try running from source if the executable doesn't work.
-
 Enjoy the game!
 
 ## Known issues
@@ -118,7 +123,8 @@ Enjoy the game!
 
 ## To-do:
 
-- [x] Add the windows executable file
+- [x] Add the `windows` executable file
+- [ ] Add `OS X` executable file as the `Debian` based one fails to execute on it
 - [ ] Add main menu for the game
 - [ ] Fix [bug](https://github.com/prodicus/spaceShooter/blob/master/spaceShooter.py#L372) which stops the background music from looping 
 - [ ] Add support for `WAV` game music file as `ogg` format is not playable as described in [#1](https://github.com/prodicus/spaceShooter/issues/1)
@@ -133,6 +139,10 @@ For details, please refer [the Contributing page](https://github.com/prodicus/sp
 ## Issues
 
 You can report the bugs at the [issue tracker](https://github.com/prodicus/spaceShooter/issues)
+
+## Similar
+
+- [Bullethell.py ](https://github.com/Frederikxyz/bullethell.py) : A fork of [prodicus/spaceShooter](https://github.com/prodicus/spaceShooter) which adds fancy shooting capabilities
 
 ## License
 
