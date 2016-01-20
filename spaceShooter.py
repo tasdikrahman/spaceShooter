@@ -4,12 +4,12 @@
 # @Date:   2016-01-17
 # @Email:  prodicus@outlook.com  Github username: @prodicus
 # @Last Modified by:   tasdik
-# @Last Modified time: 2016-01-18
+# @Last Modified time: 2016-01-20
 # MIT License. You can find a copy of the License @ http://prodicus.mit-license.org
 
 ## Game music Attribution
 ##Frozen Jam by tgfcoder <https://twitter.com/tgfcoder> licensed under CC-BY-3 <http://creativecommons.org/licenses/by/3.0/>
-
+from __future__ import division
 import pygame
 import random
 from os import path
