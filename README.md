@@ -49,6 +49,26 @@ I don't have an `OS X` system to build the executable! So I would love for a Pul
 
 [Building from source will do the trick though](https://github.com/prodicus/spaceShooter#os-x)
 
+
+```bash
+$ pip3 install hg+http://bitbucket.org/pygame/pygame
+```
+
+Install Pygame specific dependencies
+
+```bash
+$ brew install sdl sdl_image sdl_ttf portmidi libogg libvorbis
+$ brew install sdl_mixer --with-libvorbis
+```
+
+##### Clone the repo
+
+```bash
+$ git clone https://github.com/prodicus/spaceShooter.git
+$ cd spaceShooter/ 
+$ python spaceShooter.py
+```
+
 ### `Linux/Debian` based systems
 
 #### Option 1: Download the zipped executable file
@@ -61,8 +81,9 @@ If your download was saved on the `~/Downloads` folder
 Press <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>T</kbd> to open the shell if you are on `GNU/Linux` based systems and type
 
 ```bash
-$ unzip SpaceShooter-0.0.1.Linux.zip -d ~/Desktop
+$ unzip ~/Downloads/SpaceShooter-0.0.1.Linux.zip -d ~/Desktop
 $ cd ~/Desktop
+$ ## navigate to the unzipped file and change the file permissions for the executable
 ~/Desktop $ chmod +x spaceShooter
 ~/Desktop $ ./spaceShooter
 ```
@@ -88,19 +109,6 @@ You need to have `pygame` installed for this option.
 
 ```bash
 $ sudo apt-get install python-pygame
-```
-
-##### OS X
-
-```bash
-$ pip3 install hg+http://bitbucket.org/pygame/pygame
-```
-
-Install Pygame specific dependencies
-
-```bash
-$ brew install sdl sdl_image sdl_ttf portmidi libogg libvorbis
-$ brew install sdl_mixer --with-libvorbis
 ```
 
 ##### Clone the repo
