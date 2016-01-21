@@ -1,26 +1,20 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # @Author: tasdik
+# @Contributers : Branden (Github: @bardlean86)
 # @Date:   2016-01-17
-# @Email:  prodicus@outlook.com  Github username: @prodicus
-<<<<<<< HEAD
+# @Email:  prodicus@outlook.com  Github: @prodicus
 # @Last Modified by:   tasdik
-=======
 # @Last Modified by:   Branden
->>>>>>> d75cb94d7f11ed687b0c3d57d1f3d3502937ff86
-# @Last Modified time: 2016-01-20
+# @Last Modified time: 2016-01-21
 # MIT License. You can find a copy of the License @ http://prodicus.mit-license.org
 
 ## Game music Attribution
-<<<<<<< HEAD
 ##Frozen Jam by tgfcoder <https://twitter.com/tgfcoder> licensed under CC-BY-3 <http://creativecommons.org/licenses/by/3.0/>
-from __future__ import division
-=======
-##Frozen Jam by tgfcoder <https://twitter.com/tgfcoder> licensed under CC-BY-3 <http://creativecommons.org/licenses/by/3.0/>'
-##
-## Additional assets by: Branden M. Ardelean
 
->>>>>>> d75cb94d7f11ed687b0c3d57d1f3d3502937ff86
+## Additional assets by: Branden M. Ardelean (Github: @bardlean86)
+
+from __future__ import division
 import pygame
 import random
 from os import path
@@ -419,7 +413,7 @@ for sound in ['expl3.wav', 'expl6.wav']:
     expl_sounds.append(pygame.mixer.Sound(path.join(sound_folder, sound)))
 ## main background music
 #pygame.mixer.music.load(path.join(sound_folder, 'tgfcoder-FrozenJam-SeamlessLoop.ogg'))
-pygame.mixer.music.set_volume(0.5)
+pygame.mixer.music.set_volume(0.2)      ## simmered the sound down a little
 
 player_die_sound = pygame.mixer.Sound(path.join(sound_folder, 'rumble1.ogg'))
 ###################################################
@@ -462,7 +456,7 @@ while running:
         pygame.mixer.music.stop()
         #Play the gameplay music
         pygame.mixer.music.load(path.join(sound_folder, 'tgfcoder-FrozenJam-SeamlessLoop.ogg'))
-        pygame.mixer.music.play()
+        pygame.mixer.music.play(-1)     ## makes the gameplay sound in an endless loop
         
         menu_display = False
         
@@ -537,6 +531,8 @@ while running:
     ## if player died and the explosion has finished, end game
     if player.lives == 0 and not death_explosion.alive():
         running = False
+        # menu_display = True
+        # pygame.display.update()
 
     #3 Draw/render
     screen.fill(BLACK)

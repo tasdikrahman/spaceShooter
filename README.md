@@ -10,7 +10,7 @@ Follow the youtube video to see how I fared on ``spaceShooter``
 
 ## Screenshots
 
-| ![Screen 1](http://i.imgur.com/I5mTBFB.png) | ![Screen 2](http://i.imgur.com/4OgIByR.png) |
+| ![Screen 1](http://i.imgur.com/3MzfmbT.jpg) | ![Screen 2](http://i.imgur.com/4OgIByR.png) |
 |---------------------------------------------|---------------------------------------------|
 | ![Screen 3](http://i.imgur.com/PFQJjE8.png) | ![Screen 4](http://i.imgur.com/lV4aIur.png) |
 
@@ -127,7 +127,7 @@ Enjoy the game!
 
 ## Contributers:
 
-- [@bardlean86](https://github.com/bardlean86/) for adding the third missile powerup.
+- [@bardlean86](https://github.com/bardlean86/) for adding the third missile powerup and the main menu
 
 ## To-do:
 
