@@ -3,13 +3,24 @@
 # @Author: tasdik
 # @Date:   2016-01-17
 # @Email:  prodicus@outlook.com  Github username: @prodicus
+<<<<<<< HEAD
 # @Last Modified by:   tasdik
+=======
+# @Last Modified by:   Branden
+>>>>>>> d75cb94d7f11ed687b0c3d57d1f3d3502937ff86
 # @Last Modified time: 2016-01-20
 # MIT License. You can find a copy of the License @ http://prodicus.mit-license.org
 
 ## Game music Attribution
+<<<<<<< HEAD
 ##Frozen Jam by tgfcoder <https://twitter.com/tgfcoder> licensed under CC-BY-3 <http://creativecommons.org/licenses/by/3.0/>
 from __future__ import division
+=======
+##Frozen Jam by tgfcoder <https://twitter.com/tgfcoder> licensed under CC-BY-3 <http://creativecommons.org/licenses/by/3.0/>'
+##
+## Additional assets by: Branden M. Ardelean
+
+>>>>>>> d75cb94d7f11ed687b0c3d57d1f3d3502937ff86
 import pygame
 import random
 from os import path
@@ -45,6 +56,39 @@ clock = pygame.time.Clock()     ## For syncing the FPS
 ###############################
 
 font_name = pygame.font.match_font('arial')
+
+def main_menu():
+    global screen
+
+    menu_song = pygame.mixer.music.load(path.join(sound_folder, "menu.ogg"))
+    pygame.mixer.music.play(-1)
+
+    title = pygame.image.load(path.join(img_dir, "main.png")).convert()
+    title = pygame.transform.scale(title, (WIDTH, HEIGHT), screen)
+
+    screen.blit(title, (0,0))
+    pygame.display.update()
+
+    while True:
+        ev = pygame.event.poll()
+        if ev.type == pygame.KEYDOWN:
+            if ev.key == pygame.K_RETURN:
+                break
+            elif ev.key == pygame.K_q:
+                pygame.quit()
+                quit()
+        else:
+            draw_text(screen, "Press [ENTER] To Begin", 30, WIDTH/2, HEIGHT/2)
+            draw_text(screen, "or [Q] To Quit", 30, WIDTH/2, (HEIGHT/2)+40)
+            pygame.display.update()
+
+    #pygame.mixer.music.stop()
+    ready = pygame.mixer.Sound(path.join(sound_folder,'getready.ogg'))
+    ready.play()
+    screen.fill((0,0,0))
+    draw_text(screen, "GET READY!", 40, WIDTH/2, HEIGHT/2)
+    pygame.display.update()
+    
 
 def draw_text(surf, text, size, x, y):
     ## selecting a cross platform font to display the score
@@ -146,9 +190,10 @@ class Player(pygame.sprite.Sprite):
         keystate = pygame.key.get_pressed()     
         if keystate[pygame.K_LEFT]:
             self.speedx = -5
-        if keystate[pygame.K_RIGHT]:
+        elif keystate[pygame.K_RIGHT]:
             self.speedx = 5
 
+        #Fire weapons by holding spacebar
         if keystate[pygame.K_SPACE]:
             self.shoot()
 
@@ -373,8 +418,8 @@ expl_sounds = []
 for sound in ['expl3.wav', 'expl6.wav']:
     expl_sounds.append(pygame.mixer.Sound(path.join(sound_folder, sound)))
 ## main background music
-pygame.mixer.music.load(path.join(sound_folder, 'tgfcoder-FrozenJam-SeamlessLoop.ogg'))
-pygame.mixer.music.set_volume(0.2)
+#pygame.mixer.music.load(path.join(sound_folder, 'tgfcoder-FrozenJam-SeamlessLoop.ogg'))
+pygame.mixer.music.set_volume(0.5)
 
 player_die_sound = pygame.mixer.Sound(path.join(sound_folder, 'rumble1.ogg'))
 ###################################################
@@ -402,18 +447,36 @@ score = 0
 ## TODO: make the game music loop over again and again. play(loops=-1) is not working
 # Error : 
 # TypeError: play() takes no keyword arguments
-pygame.mixer.music.play()
+#pygame.mixer.music.play()
 
 #############################
 ## Game loop
 running = True
+menu_display = True
 while running:
+    if menu_display:
+        main_menu()
+        pygame.time.wait(3000)
+
+        #Stop menu music
+        pygame.mixer.music.stop()
+        #Play the gameplay music
+        pygame.mixer.music.load(path.join(sound_folder, 'tgfcoder-FrozenJam-SeamlessLoop.ogg'))
+        pygame.mixer.music.play()
+        
+        menu_display = False
+        
     #1 Process input/events
     clock.tick(FPS)     ## will make the loop run at the same speed all the time
     for event in pygame.event.get():        # gets all the events which have occured till now and keeps tab of them.
         ## listening for the the X button at the top
         if event.type == pygame.QUIT:
             running = False
+
+        ## Press ESC to exit game
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                running = False
         # ## event for shooting the bullets
         # elif event.type == pygame.KEYDOWN:
         #     if event.key == pygame.K_SPACE:
