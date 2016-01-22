@@ -30,10 +30,12 @@ Follow the youtube video to see how I fared on ``spaceShooter``
 
 ## Controls
 
-- To move the spaceship 
-  - To left : <kbd>left</kbd>
-  - to right : <kbd>right</kbd>
-- To fire the bullets : <kbd>spacebar</kbd>
+|              | Button              |
+|--------------|---------------------|
+| Move Left    | <kbd>left</kbd>     |
+| Move right   | <kbd>right</kbd>    |
+| Fire bullets | <kbd>spacebar</kbd> |
+| Quit game    | <kbd>Esc</kbd>      |
 
 ## Installation
 
@@ -133,8 +135,8 @@ Enjoy the game!
 
 - [x] Add the `windows` executable file
 - [ ] Add `OS X` executable file as the `Debian` based one fails to execute on it
-- [ ] Add main menu for the game
-- [ ] Fix [bug](https://github.com/prodicus/spaceShooter/blob/master/spaceShooter.py#L372) which stops the background music from looping 
+- [x] Add main menu for the game
+- [x] Fix [bug](https://github.com/prodicus/spaceShooter/blob/master/spaceShooter.py#L372) which stops the background music from looping 
 - [ ] Add support for `WAV` game music file as `ogg` format is not playable as described in [#1](https://github.com/prodicus/spaceShooter/issues/1)
 - [ ] add feature to replay the game after all players die
 
@@ -147,6 +149,10 @@ For details, please refer [the Contributing page](https://github.com/prodicus/sp
 ## Issues
 
 You can report the bugs at the [issue tracker](https://github.com/prodicus/spaceShooter/issues)
+
+**OR**
+
+You can [tweet me](https://twitter.com/tasdikrahman) if you can't get it to work. In fact, you should tweet me anyway.
 
 ## Similar
 
