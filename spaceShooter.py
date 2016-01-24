@@ -1,17 +1,20 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # @Author: tasdik
+# @Contributers : Branden (Github: @bardlean86)
 # @Date:   2016-01-17
-# @Email:  prodicus@outlook.com  Github username: @prodicus
+# @Email:  prodicus@outlook.com  Github: @prodicus
+# @Last Modified by:   tasdik
 # @Last Modified by:   Branden
-# @Last Modified time: 2016-01-20
+# @Last Modified time: 2016-01-21
 # MIT License. You can find a copy of the License @ http://prodicus.mit-license.org
 
 ## Game music Attribution
-##Frozen Jam by tgfcoder <https://twitter.com/tgfcoder> licensed under CC-BY-3 <http://creativecommons.org/licenses/by/3.0/>'
-##
-## Additional assets by: Branden M. Ardelean
+##Frozen Jam by tgfcoder <https://twitter.com/tgfcoder> licensed under CC-BY-3 <http://creativecommons.org/licenses/by/3.0/>
 
+## Additional assets by: Branden M. Ardelean (Github: @bardlean86)
+
+from __future__ import division
 import pygame
 import random
 from os import path
@@ -418,8 +421,13 @@ expl_sounds = []
 for sound in ['expl3.wav', 'expl6.wav']:
     expl_sounds.append(pygame.mixer.Sound(path.join(sound_folder, sound)))
 ## main background music
+<<<<<<< HEAD
 # pygame.mixer.music.load(path.join(sound_folder, 'tgfcoder-FrozenJam-SeamlessLoop.ogg'))
 pygame.mixer.music.set_volume(0.5)
+=======
+#pygame.mixer.music.load(path.join(sound_folder, 'tgfcoder-FrozenJam-SeamlessLoop.ogg'))
+pygame.mixer.music.set_volume(0.2)      ## simmered the sound down a little
+>>>>>>> 49fe12d945a13f6b2d0daf78037d4888eb345fc9
 
 player_die_sound = pygame.mixer.Sound(path.join(sound_folder, 'rumble1.ogg'))
 ###################################################
@@ -454,6 +462,7 @@ running = True
 menu_display = True
 gameover = False
 
+<<<<<<< HEAD
 
 def game_loop():
     global score
@@ -464,6 +473,19 @@ def game_loop():
     ## Game loop
     clock.tick(FPS)  ## will make the loop run at the same speed all the time
     for event in pygame.event.get():  # gets all the events which have occured till now and keeps tab of them.
+=======
+        #Stop menu music
+        pygame.mixer.music.stop()
+        #Play the gameplay music
+        pygame.mixer.music.load(path.join(sound_folder, 'tgfcoder-FrozenJam-SeamlessLoop.ogg'))
+        pygame.mixer.music.play(-1)     ## makes the gameplay sound in an endless loop
+        
+        menu_display = False
+        
+    #1 Process input/events
+    clock.tick(FPS)     ## will make the loop run at the same speed all the time
+    for event in pygame.event.get():        # gets all the events which have occured till now and keeps tab of them.
+>>>>>>> 49fe12d945a13f6b2d0daf78037d4888eb345fc9
         ## listening for the the X button at the top
         if event.type == pygame.QUIT:
             running = False
@@ -530,8 +552,15 @@ def game_loop():
             player.powerup()
 
     ## if player died and the explosion has finished, end game
+<<<<<<< HEAD
     if player.lives == 0:  # and not death_explosion.alive():
         gameover = True
+=======
+    if player.lives == 0 and not death_explosion.alive():
+        running = False
+        # menu_display = True
+        # pygame.display.update()
+>>>>>>> 49fe12d945a13f6b2d0daf78037d4888eb345fc9
 
     # 3 Draw/render
     screen.fill(BLACK)
