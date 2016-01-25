@@ -160,7 +160,7 @@ You can [tweet me](https://twitter.com/tasdikrahman) if you can't get it to work
 
 ## License
 
-[MIT License](http://prodicus.mit-license.org) © [Tasdik Rahman](http://tasdikrahman.me)
+Built with ♥ by [Tasdik Rahman](http://tasdikrahman.me) under [MIT License](http://prodicus.mit-license.org)
 
 You can find a copy of the License at http://prodicus.mit-license.org/
 
