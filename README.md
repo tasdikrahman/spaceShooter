@@ -2,7 +2,28 @@
 
 The classic retro game recreated using `Pygame` and `python`.
 
+## Index
+
+- [Demo](https://github.com/prodicus/spaceShooter#demo)
+  - [Screenshots](https://github.com/prodicus/spaceShooter#screenshots)
+- [Game Features](https://github.com/prodicus/spaceShooter#game-features)
+  - [Controls](https://github.com/prodicus/spaceShooter#controls)
+- [Installation](https://github.com/prodicus/spaceShooter#installation)
+  - [For Windows](https://github.com/prodicus/spaceShooter#for-windows)
+  - [Linux/Debian based systems](https://github.com/prodicus/spaceShooter#linuxdebian-based-systems)
+    - [Option 1: Download the zipped executable file](https://github.com/prodicus/spaceShooter#option-1-download-the-zipped-executable-file)
+    - [Option 2: Build from source](https://github.com/prodicus/spaceShooter#option-2-build-from-source)
+  - [For MAC OS X](https://github.com/prodicus/spaceShooter#for-mac-os-x)
+- [Contributing](https://github.com/prodicus/spaceShooter#contributing)
+  - [Contributers](https://github.com/prodicus/spaceShooter#contributers)
+  - [To-do](https://github.com/prodicus/spaceShooter#to-do)
+- [Issues](https://github.com/prodicus/spaceShooter#issues)
+- [Similar](https://github.com/prodicus/spaceShooter#similar)
+- [License](https://github.com/prodicus/spaceShooter#license)
+
 ## Demo
+
+[[Back to top]](https://github.com/prodicus/spaceShooter#index)
 
 Follow the youtube video to see how I fared on ``spaceShooter``
 
@@ -10,11 +31,15 @@ Follow the youtube video to see how I fared on ``spaceShooter``
 
 ## Screenshots
 
+[[Back to top]](https://github.com/prodicus/spaceShooter#index)
+
 | ![Screen 1](http://i.imgur.com/3MzfmbT.jpg) | ![Screen 2](http://i.imgur.com/4OgIByR.png) |
 |---------------------------------------------|---------------------------------------------|
 | ![Screen 3](http://i.imgur.com/PFQJjE8.png) | ![Screen 4](http://i.imgur.com/lV4aIur.png) |
 
 ## Game Features
+
+[[Back to top]](https://github.com/prodicus/spaceShooter#index)
 
 - Health bar for the space ship
 - Score board to show how you are faring so far
@@ -30,6 +55,8 @@ Follow the youtube video to see how I fared on ``spaceShooter``
 
 ## Controls
 
+[[Back to top]](https://github.com/prodicus/spaceShooter#index)
+
 |              | Button              |
 |--------------|---------------------|
 | Move Left    | <kbd>left</kbd>     |
@@ -39,43 +66,18 @@ Follow the youtube video to see how I fared on ``spaceShooter``
 
 ## Installation
 
+[[Back to top]](https://github.com/prodicus/spaceShooter#index)
+
 ### For `Windows`
 
-- Download the prebuilt `zip file` [from here](https://github.com/prodicus/spaceShooter/releases/download/v0.0.2/spaceShooter-v0.0.2_windows.zip) and extract the file to your preferred destination by using [7-zip](http://www.7-zip.org/download.html) or [winzip](http://www.winzip.com/prod_down.html) or any other similar program of your choice.
+- :arrow_down: [Download the prebuilt zip file and unzip it.](https://github.com/prodicus/spaceShooter/releases/latest)
 - Run the executable named `spaceShooter` inside the extracted file.
-
-### For `MAC OS X` 
-
-You have to build from source to get it up and running on `OS X`. Reason?
-I don't have an `OS X` system to build the executable! So I would love for a Pull request on that one.
-
-[Building from source will do the trick though](https://github.com/prodicus/spaceShooter#os-x)
-
-
-```bash
-$ pip3 install hg+http://bitbucket.org/pygame/pygame
-```
-
-Install Pygame specific dependencies
-
-```bash
-$ brew install sdl sdl_image sdl_ttf portmidi libogg libvorbis
-$ brew install sdl_mixer --with-libvorbis
-```
-
-##### Clone the repo
-
-```bash
-$ git clone https://github.com/prodicus/spaceShooter.git
-$ cd spaceShooter/ 
-$ python spaceShooter.py
-```
 
 ### `Linux/Debian` based systems
 
 #### Option 1: Download the zipped executable file
 
-- Download the [latest zip file](https://github.com/prodicus/spaceShooter/releases/download/v0.0.2/spaceShooter-v0.0.2_linux.zip)
+- :arrow_down: [Download the latest zip file for linux](https://github.com/prodicus/spaceShooter/releases/latest)
 - Unzip the file
 
 If your download was saved on the `~/Downloads` folder
@@ -83,7 +85,7 @@ If your download was saved on the `~/Downloads` folder
 Press <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>T</kbd> to open the shell if you are on `GNU/Linux` based systems and type
 
 ```bash
-$ unzip ~/Downloads/SpaceShooter-0.0.1.Linux.zip -d ~/Desktop
+$ unzip ~/Downloads/SpaceShooter-0.0.3.Linux.zip -d ~/Desktop
 $ cd ~/Desktop
 $ ## navigate to the unzipped file and change the file permissions for the executable
 ~/Desktop $ chmod +x spaceShooter
@@ -121,32 +123,63 @@ $ cd spaceShooter/
 $ python spaceShooter.py
 ```
 
-Enjoy the game!
+### For `MAC OS X` 
 
-## Known issues
+You have to build from source to get it up and running on `OS X`. Reason?
+I don't have an `OS X` system to build the executable! So I would love for a Pull request on that one.
 
-- The game music doesn't play on `OS X` as described in [#1](https://github.com/prodicus/spaceShooter/issues/1)
+Building from source will do the trick though
 
-## Contributers:
 
-- [@bardlean86](https://github.com/bardlean86/) for adding the third missile powerup and the main menu
+```bash
+$ pip3 install hg+http://bitbucket.org/pygame/pygame
+```
 
-## To-do:
+Install Pygame specific dependencies
 
-- [x] Add the `windows` executable file
-- [ ] Add `OS X` executable file as the `Debian` based one fails to execute on it
-- [x] Add main menu for the game
-- [x] Fix [bug](https://github.com/prodicus/spaceShooter/blob/master/spaceShooter.py#L372) which stops the background music from looping 
-- [ ] Add support for `WAV` game music file as `ogg` format is not playable as described in [#1](https://github.com/prodicus/spaceShooter/issues/1)
-- [ ] add feature to replay the game after all players die
+```bash
+$ brew install sdl sdl_image sdl_ttf portmidi libogg libvorbis
+$ brew install sdl_mixer --with-libvorbis
+```
+
+##### Clone the repo
+
+```bash
+$ git clone https://github.com/prodicus/spaceShooter.git
+$ cd spaceShooter/ 
+$ python spaceShooter.py
+```
 
 ## Contributing
+
+[[Back to top]](https://github.com/prodicus/spaceShooter#index)
 
 This game was written in one day, so the coding standards might not be up the mark. Don't be shy to make a Pull request :)
 
 For details, please refer [the Contributing page](https://github.com/prodicus/spaceShooter/blob/master/CONTRIBUTING.rst)
 
+### Contributers
+
+[[Back to top]](https://github.com/prodicus/spaceShooter#index)
+
+- [@bardlean86](https://github.com/bardlean86/) for adding the third missile powerup and the main menu
+
+### To-do
+
+[[Back to top]](https://github.com/prodicus/spaceShooter#index)
+
+- [x] Add the `windows` executable file
+- [x] Add main menu for the game
+- [x] Fix [bug](https://github.com/prodicus/spaceShooter/blob/master/spaceShooter.py#L372) which stops the background music from looping 
+- [x] Add support for `WAV` game music file as `ogg` format is not playable as described in [#1](https://github.com/prodicus/spaceShooter/issues/1)
+- [ ] Add feature to pause to the game.
+- [ ] add feature to replay the game after all players die
+- [ ] Add `OS X` executable file as the `Debian` based one fails to execute on it
+
+
 ## Issues
+
+[[Back to top]](https://github.com/prodicus/spaceShooter#index)
 
 You can report the bugs at the [issue tracker](https://github.com/prodicus/spaceShooter/issues)
 
@@ -156,11 +189,15 @@ You can [tweet me](https://twitter.com/tasdikrahman) if you can't get it to work
 
 ## Similar
 
+[[Back to top]](https://github.com/prodicus/spaceShooter#index)
+
 - [Bullethell.py ](https://github.com/Frederikxyz/bullethell.py) : A fork of [prodicus/spaceShooter](https://github.com/prodicus/spaceShooter) which adds fancy shooting capabilities
 
 ## License
 
-[MIT License](http://prodicus.mit-license.org) © [Tasdik Rahman](http://tasdikrahman.me)
+[[Back to top]](https://github.com/prodicus/spaceShooter#index)
+
+Built with ♥ by [Tasdik Rahman](http://tasdikrahman.me)[(@tasdikrahman)](https://twitter.com/tasdikrahman) under [MIT License](http://prodicus.mit-license.org)
 
 You can find a copy of the License at http://prodicus.mit-license.org/
 
