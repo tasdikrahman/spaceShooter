@@ -41,7 +41,7 @@ Follow the youtube video to see how I fared on ``spaceShooter``
 
 ### For `Windows`
 
-- Download the prebuilt `zip file` [from here](https://github.com/prodicus/spaceShooter/releases/download/v0.0.2/spaceShooter-v0.0.2_windows.zip) and extract the file to your preferred destination by using [7-zip](http://www.7-zip.org/download.html) or [winzip](http://www.winzip.com/prod_down.html) or any other similar program of your choice.
+- Download the prebuilt `zip file` [for Windows from here](https://github.com/prodicus/spaceShooter/releases/latest) and extract the file to your preferred destination by using [7-zip](http://www.7-zip.org/download.html) or [winzip](http://www.winzip.com/prod_down.html) or any other similar program of your choice.
 - Run the executable named `spaceShooter` inside the extracted file.
 
 ### For `MAC OS X` 
@@ -49,7 +49,7 @@ Follow the youtube video to see how I fared on ``spaceShooter``
 You have to build from source to get it up and running on `OS X`. Reason?
 I don't have an `OS X` system to build the executable! So I would love for a Pull request on that one.
 
-[Building from source will do the trick though](https://github.com/prodicus/spaceShooter#os-x)
+Building from source will do the trick though
 
 
 ```bash
@@ -75,7 +75,7 @@ $ python spaceShooter.py
 
 #### Option 1: Download the zipped executable file
 
-- Download the [latest zip file](https://github.com/prodicus/spaceShooter/releases/download/v0.0.2/spaceShooter-v0.0.2_linux.zip)
+- Download the [latest zip file for linux](https://github.com/prodicus/spaceShooter/releases/latest)
 - Unzip the file
 
 If your download was saved on the `~/Downloads` folder
