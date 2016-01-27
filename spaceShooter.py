@@ -6,7 +6,7 @@
 # @Email:  prodicus@outlook.com  Github: @prodicus
 # @Last Modified by:   tasdik
 # @Last Modified by:   Branden
-# @Last Modified time: 2016-01-21
+# @Last Modified time: 2016-01-26
 # MIT License. You can find a copy of the License @ http://prodicus.mit-license.org
 
 ## Game music Attribution
@@ -29,6 +29,8 @@ WIDTH = 480
 HEIGHT = 600
 FPS = 60
 POWERUP_TIME = 5000
+BAR_LENGTH = 100
+BAR_HEIGHT = 10
 
 # Define Colors 
 WHITE = (255, 255, 255)
@@ -79,7 +81,7 @@ def main_menu():
     #pygame.mixer.music.stop()
     ready = pygame.mixer.Sound(path.join(sound_folder,'getready.ogg'))
     ready.play()
-    screen.fill((0,0,0))
+    screen.fill(BLACK)
     draw_text(screen, "GET READY!", 40, WIDTH/2, HEIGHT/2)
     pygame.display.update()
     
@@ -94,10 +96,12 @@ def draw_text(surf, text, size, x, y):
 
 
 def draw_shield_bar(surf, x, y, pct):
-    if pct < 0:
-        pct = 0 
-    BAR_LENGTH = 100
-    BAR_HEIGHT = 10
+    # if pct < 0:
+    #     pct = 0
+    pct = max(pct, 0) 
+    ## moving them to top
+    # BAR_LENGTH = 100
+    # BAR_HEIGHT = 10
     fill = (pct / 100) * BAR_LENGTH
     outline_rect = pygame.Rect(x, y, BAR_LENGTH, BAR_HEIGHT)
     fill_rect = pygame.Rect(x, y, fill, BAR_HEIGHT)

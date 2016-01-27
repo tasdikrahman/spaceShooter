@@ -2,6 +2,26 @@
 
 The classic retro game recreated using `Pygame` and `python`.
 
+## Index
+
+- [Demo](https://github.com/prodicus/spaceShooter#demo)
+  - [Screenshots](https://github.com/prodicus/spaceShooter#screenshots)
+- [Game Features](https://github.com/prodicus/spaceShooter#game-features)
+  - [Controls](https://github.com/prodicus/spaceShooter#controls)
+- [Installation](https://github.com/prodicus/spaceShooter#installation)
+  - [For Windows](https://github.com/prodicus/spaceShooter#for-windows)
+  - [For MAC OS X](https://github.com/prodicus/spaceShooter#for-mac-os-x)
+  - [Linux/Debian based systems](https://github.com/prodicus/spaceShooter#linuxdebian-based-systems)
+    - [Option 1: Download the zipped executable file](https://github.com/prodicus/spaceShooter#option-1-download-the-zipped-executable-file)
+    - [Option 2: Build from source](https://github.com/prodicus/spaceShooter#option-2-build-from-source)
+- [Contributing](https://github.com/prodicus/spaceShooter#contributing)
+  - [Contributers](https://github.com/prodicus/spaceShooter#contributers)
+  - [To-do](https://github.com/prodicus/spaceShooter#to-do)
+- [Issues](https://github.com/prodicus/spaceShooter#issues)
+  - [Known issues](https://github.com/prodicus/spaceShooter#known-issues)
+- [Similar](https://github.com/prodicus/spaceShooter#similar)
+- [License](https://github.com/prodicus/spaceShooter#license)
+
 ## Demo
 
 Follow the youtube video to see how I fared on ``spaceShooter``
@@ -123,15 +143,17 @@ $ python spaceShooter.py
 
 Enjoy the game!
 
-## Known issues
+## Contributing
 
-- The game music doesn't play on `OS X` as described in [#1](https://github.com/prodicus/spaceShooter/issues/1)
+This game was written in one day, so the coding standards might not be up the mark. Don't be shy to make a Pull request :)
 
-## Contributers:
+For details, please refer [the Contributing page](https://github.com/prodicus/spaceShooter/blob/master/CONTRIBUTING.rst)
+
+### Contributers
 
 - [@bardlean86](https://github.com/bardlean86/) for adding the third missile powerup and the main menu
 
-## To-do:
+### To-do
 
 - [x] Add the `windows` executable file
 - [ ] Add `OS X` executable file as the `Debian` based one fails to execute on it
@@ -140,11 +162,6 @@ Enjoy the game!
 - [ ] Add support for `WAV` game music file as `ogg` format is not playable as described in [#1](https://github.com/prodicus/spaceShooter/issues/1)
 - [ ] add feature to replay the game after all players die
 
-## Contributing
-
-This game was written in one day, so the coding standards might not be up the mark. Don't be shy to make a Pull request :)
-
-For details, please refer [the Contributing page](https://github.com/prodicus/spaceShooter/blob/master/CONTRIBUTING.rst)
 
 ## Issues
 
@@ -153,6 +170,10 @@ You can report the bugs at the [issue tracker](https://github.com/prodicus/space
 **OR**
 
 You can [tweet me](https://twitter.com/tasdikrahman) if you can't get it to work. In fact, you should tweet me anyway.
+
+#### Known issues
+
+- The game music doesn't play on `OS X` as described in [#1](https://github.com/prodicus/spaceShooter/issues/1)
 
 ## Similar
 
