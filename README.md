@@ -156,11 +156,11 @@ For details, please refer [the Contributing page](https://github.com/prodicus/sp
 ### To-do
 
 - [x] Add the `windows` executable file
-- [ ] Add `OS X` executable file as the `Debian` based one fails to execute on it
 - [x] Add main menu for the game
 - [x] Fix [bug](https://github.com/prodicus/spaceShooter/blob/master/spaceShooter.py#L372) which stops the background music from looping 
-- [ ] Add support for `WAV` game music file as `ogg` format is not playable as described in [#1](https://github.com/prodicus/spaceShooter/issues/1)
+- [x] Add support for `WAV` game music file as `ogg` format is not playable as described in [#1](https://github.com/prodicus/spaceShooter/issues/1)
 - [ ] add feature to replay the game after all players die
+- [ ] Add `OS X` executable file as the `Debian` based one fails to execute on it
 
 
 ## Issues
@@ -170,10 +170,6 @@ You can report the bugs at the [issue tracker](https://github.com/prodicus/space
 **OR**
 
 You can [tweet me](https://twitter.com/tasdikrahman) if you can't get it to work. In fact, you should tweet me anyway.
-
-#### Known issues
-
-- The game music doesn't play on `OS X` as described in [#1](https://github.com/prodicus/spaceShooter/issues/1)
 
 ## Similar
 
