@@ -15,13 +15,25 @@
 ## Additional assets by: Branden M. Ardelean (Github: @bardlean86)
 
 from __future__ import division
-import pygame
+
 import random
+import os
+import sys
+
 from os import path
 
+import pygame
+
+## PyInstaller provision to bundle resources into a single file. Needed for Mac.
+
+def resource_path(relative):
+    if hasattr(sys, "_MEIPASS"):
+        return os.path.join(sys._MEIPASS, relative)
+    return os.path.join(relative)
+
 ## assets folder
-img_dir = path.join(path.dirname(__file__), 'assets')
-sound_folder = path.join(path.dirname(__file__), 'sounds')
+img_dir = resource_path(path.join(path.dirname(__file__), 'assets'))
+sound_folder = resource_path(path.join(path.dirname(__file__), 'sounds'))
 
 ###############################
 ## to be placed in "constant.py" later
@@ -72,7 +84,7 @@ def main_menu():
                 break
             elif ev.key == pygame.K_q:
                 pygame.quit()
-                quit()
+                sys.exit()
         else:
             draw_text(screen, "Press [ENTER] To Begin", 30, WIDTH/2, HEIGHT/2)
             draw_text(screen, "or [Q] To Quit", 30, WIDTH/2, (HEIGHT/2)+40)
