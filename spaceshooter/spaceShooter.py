@@ -6,7 +6,8 @@
 # @Email:  prodicus@outlook.com  Github: @prodicus
 # @Last Modified by:   tasdik
 # @Last Modified by:   Branden
-# @Last Modified time: 2016-01-26
+# @Last Modified by:   Amar Pandey
+# @Last Modified time: 2016-07-02
 # MIT License. You can find a copy of the License @ http://prodicus.mit-license.org
 
 ## Game music Attribution
@@ -33,6 +34,7 @@ BAR_LENGTH = 100
 BAR_HEIGHT = 10
 
 # Define Colors 
+ALPHA_BLACK = (0, 0, 0, 0.45)
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 RED = (255, 0, 0)
@@ -75,7 +77,8 @@ def main_menu():
                 quit()
         else:
             draw_text(screen, "Press [ENTER] To Begin", 30, WIDTH/2, HEIGHT/2)
-            draw_text(screen, "or [Q] To Quit", 30, WIDTH/2, (HEIGHT/2)+40)
+            draw_text(screen, "and [P] To Pause", 30, WIDTH/2, (HEIGHT/2)+40)
+            draw_text(screen, "or [Q] To Quit", 30, WIDTH/2, (HEIGHT/2)+80)
             pygame.display.update()
 
     #pygame.mixer.music.stop()
@@ -195,6 +198,9 @@ class Player(pygame.sprite.Sprite):
         if keystate[pygame.K_SPACE]:
             self.shoot()
 
+        if keystate[pygame.K_p]:
+            self.pause()
+
         ## check for the borders at the left and right
         if self.rect.right > WIDTH:
             self.rect.right = WIDTH
@@ -202,6 +208,22 @@ class Player(pygame.sprite.Sprite):
             self.rect.left = 0
 
         self.rect.x += self.speedx
+
+    def pause(self):
+        paused = True    
+        while paused:
+            ev = pygame.event.poll()
+            if ev.type == pygame.KEYDOWN:
+                if ev.key == pygame.K_c:
+                    paused = False
+                elif ev.key == pygame.K_q:
+                    pygame.quit()
+                    quit()
+
+            screen.fill(ALPHA_BLACK)
+            draw_text(screen, "Paused", 30, WIDTH/2, HEIGHT/2 - 70)
+            draw_text(screen, "Press [C] to continue and [Q] to exit!", 20, WIDTH/2, HEIGHT/2 + 10)
+            pygame.display.update()
 
     def shoot(self):
         ## to tell the bullet where to spawn
