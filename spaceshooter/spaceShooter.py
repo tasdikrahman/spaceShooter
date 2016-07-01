@@ -34,7 +34,6 @@ BAR_LENGTH = 100
 BAR_HEIGHT = 10
 
 # Define Colors 
-ALPHA_BLACK = (0, 0, 0, 0.45)
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 RED = (255, 0, 0)
@@ -220,7 +219,7 @@ class Player(pygame.sprite.Sprite):
                     pygame.quit()
                     quit()
 
-            screen.fill(ALPHA_BLACK)
+            screen.fill(BLACK)
             draw_text(screen, "Paused", 30, WIDTH/2, HEIGHT/2 - 70)
             draw_text(screen, "Press [C] to continue and [Q] to exit!", 20, WIDTH/2, HEIGHT/2 + 10)
             pygame.display.update()
