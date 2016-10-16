@@ -6,7 +6,8 @@
 # @Email:  prodicus@outlook.com  Github: @prodicus
 # @Last Modified by:   tasdik
 # @Last Modified by:   Branden
-# @Last Modified time: 2016-01-26
+# @Last Modified by:   Dic3
+# @Last Modified time: 2016-10-16
 # MIT License. You can find a copy of the License @ http://prodicus.mit-license.org
 
 ## Game music Attribution
@@ -73,6 +74,9 @@ def main_menu():
             elif ev.key == pygame.K_q:
                 pygame.quit()
                 quit()
+        elif ev.type == pygame.QUIT:
+                pygame.quit()
+                quit() 
         else:
             draw_text(screen, "Press [ENTER] To Begin", 30, WIDTH/2, HEIGHT/2)
             draw_text(screen, "or [Q] To Quit", 30, WIDTH/2, (HEIGHT/2)+40)
