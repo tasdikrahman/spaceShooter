@@ -2,6 +2,12 @@
 
 The classic retro game recreated using `Pygame` and `python`.
 
+<p align="center">
+<a href="https://www.paypal.me/tasdikrahman" target="_blank"><img src="https://tuxtricks.files.wordpress.com/2016/12/donate.png" alt="Donate via PayPal!" title="Donate via PayPal!" /></a>
+</p>
+
+Some of my projects are also on `[gratipay] <https://gratipay.com/~prodicus/>`__
+
 ## Index
 
 - [Demo](https://github.com/prodicus/spaceShooter#demo)
