@@ -6,6 +6,12 @@ The classic retro game recreated using `Pygame` and `python`.
 <a href="https://www.paypal.me/tasdikrahman" target="_blank"><img src="https://tuxtricks.files.wordpress.com/2016/12/donate.png" alt="Donate via PayPal!" title="Donate via PayPal!" /></a>
 </p>
 
+If you are from the Indian subcontinent, 
+
+<p align="center">
+<a href="https://www.instamojo.com/@tasdikrahman" target="_blank"><img src="https://www.instamojo.com/blog/wp-content/uploads/2017/01/instamojo-91.png" alt="Donate via instamojo" title="Donate via instamojo" /></a>
+</p>
+
 Some of my projects are also on [gratipay](https://gratipay.com/~prodicus/)
 
 ## Index
