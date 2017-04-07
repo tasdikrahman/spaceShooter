@@ -14,6 +14,10 @@ If you are from the Indian subcontinent,
 
 Some of my projects are also on [gratipay](https://gratipay.com/~prodicus/)
 
+<a href="https://news.ycombinator.com/item?id=10925168"><img src="https://raw.githubusercontent.com/wingify/across-tabs/master/images/hn.png" width="150" height="20"/></a>
+<a href="https://www.producthunt.com/posts/space-shooter"><img src="https://raw.githubusercontent.com/wingify/across-tabs/master/images/product_hunt.png" width="100" height="20"/></a>
+
+
 ## Index
 
 - [Demo](https://github.com/prodicus/spaceShooter#demo)
