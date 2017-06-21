@@ -2,18 +2,6 @@
 
 The classic retro game recreated using `Pygame` and `python`.
 
-<p align="center">
-<a href="https://www.paypal.me/tasdikrahman" target="_blank"><img src="https://tuxtricks.files.wordpress.com/2016/12/donate.png" alt="Donate via PayPal!" title="Donate via PayPal!" /></a>
-</p>
-
-If you are from the Indian subcontinent, 
-
-<p align="center">
-<a href="https://www.instamojo.com/@tasdikrahman" target="_blank"><img src="https://www.instamojo.com/blog/wp-content/uploads/2017/01/instamojo-91.png" alt="Donate via instamojo" title="Donate via instamojo" /></a>
-</p>
-
-Some of my projects are also on [gratipay](https://gratipay.com/~prodicus/)
-
 <a href="https://news.ycombinator.com/item?id=10925168"><img src="https://raw.githubusercontent.com/wingify/across-tabs/master/images/hn.png" width="150" height="20"/></a>
 <a href="https://www.producthunt.com/posts/space-shooter"><img src="https://raw.githubusercontent.com/wingify/across-tabs/master/images/product_hunt.png" width="100" height="20"/></a>
 
@@ -36,6 +24,7 @@ Some of my projects are also on [gratipay](https://gratipay.com/~prodicus/)
 - [Issues](https://github.com/prodicus/spaceShooter#issues)
 - [Similar](https://github.com/prodicus/spaceShooter#similar)
 - [License](https://github.com/prodicus/spaceShooter#license)
+- [Donation](https://github.com/prodicus/spaceShooter#donation)
 
 ## Demo
 
@@ -222,3 +211,14 @@ You can find a copy of the License at http://prodicus.mit-license.org/
 License for them is in `Public Domain`
 
 - The game sounds were again taken from [http://opengameart.org/](http://opengameart.org/). The game music, [Frozen Jam](http://opengameart.org/content/frozen-jam-seamless-loop) by [tgfcoder](https://twitter.com/tgfcoder) licensed under [CC-BY-3](http://creativecommons.org/licenses/by/3.0/)
+
+## Donation
+
+[[Back to top]](https://github.com/prodicus/spaceShooter#index)
+
+If you have found my little bits of software being of any use to you, do consider helping me pay my internet bills :)
+
+| £ (GBP) | <a href="https://transferwise.com/pay/d804d854-6862-4127-afdd-4687d64cbd28" target="_blank"><img src="http://i.imgur.com/ARJfowA.png" alt="Donate via TransferWise!" title="Donate via TransferWise!" /></a> |
+|:-------------------------------------------:|:-------------------------------------------------------------:|
+| € Euros | <a href="https://transferwise.com/pay/64c586e3-ec99-4be8-af0b-59241f7b9b79" target="_blank"><img src="http://i.imgur.com/ARJfowA.png" alt="Donate via TransferWise!" title="Donate via TransferWise!" /></a> |
+| ₹ (INR)  | <a href="https://www.instamojo.com/@tasdikrahman" target="_blank"><img src="https://www.instamojo.com/blog/wp-content/uploads/2017/01/instamojo-91.png" alt="Donate via instamojo" title="Donate via instamojo" /></a> | 
