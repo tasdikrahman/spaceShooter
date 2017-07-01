@@ -8,27 +8,27 @@ The classic retro game recreated using `Pygame` and `python`.
 
 ## Index
 
-- [Demo](https://github.com/prodicus/spaceShooter#demo)
-  - [Screenshots](https://github.com/prodicus/spaceShooter#screenshots)
-- [Game Features](https://github.com/prodicus/spaceShooter#game-features)
-  - [Controls](https://github.com/prodicus/spaceShooter#controls)
-- [Installation](https://github.com/prodicus/spaceShooter#installation)
-  - [For Windows](https://github.com/prodicus/spaceShooter#for-windows)
-  - [Linux/Debian based systems](https://github.com/prodicus/spaceShooter#linuxdebian-based-systems)
-    - [Option 1: Download the zipped executable file](https://github.com/prodicus/spaceShooter#option-1-download-the-zipped-executable-file)
-    - [Option 2: Build from source](https://github.com/prodicus/spaceShooter#option-2-build-from-source)
-  - [For MAC OS X](https://github.com/prodicus/spaceShooter#for-mac-os-x)
-- [Contributing](https://github.com/prodicus/spaceShooter#contributing)
-  - [Contributers](https://github.com/prodicus/spaceShooter#contributers)
-  - [To-do](https://github.com/prodicus/spaceShooter#to-do)
-- [Issues](https://github.com/prodicus/spaceShooter#issues)
-- [Similar](https://github.com/prodicus/spaceShooter#similar)
-- [License](https://github.com/prodicus/spaceShooter#license)
-- [Donation](https://github.com/prodicus/spaceShooter#donation)
+- [Demo](https://github.com/tasdikrahman/spaceShooter#demo)
+  - [Screenshots](https://github.com/tasdikrahman/spaceShooter#screenshots)
+- [Game Features](https://github.com/tasdikrahman/spaceShooter#game-features)
+  - [Controls](https://github.com/tasdikrahman/spaceShooter#controls)
+- [Installation](https://github.com/tasdikrahman/spaceShooter#installation)
+  - [For Windows](https://github.com/tasdikrahman/spaceShooter#for-windows)
+  - [Linux/Debian based systems](https://github.com/tasdikrahman/spaceShooter#linuxdebian-based-systems)
+    - [Option 1: Download the zipped executable file](https://github.com/tasdikrahman/spaceShooter#option-1-download-the-zipped-executable-file)
+    - [Option 2: Build from source](https://github.com/tasdikrahman/spaceShooter#option-2-build-from-source)
+  - [For MAC OS X](https://github.com/tasdikrahman/spaceShooter#for-mac-os-x)
+- [Contributing](https://github.com/tasdikrahman/spaceShooter#contributing)
+  - [Contributers](https://github.com/tasdikrahman/spaceShooter#contributers)
+  - [To-do](https://github.com/tasdikrahman/spaceShooter#to-do)
+- [Issues](https://github.com/tasdikrahman/spaceShooter#issues)
+- [Similar](https://github.com/tasdikrahman/spaceShooter#similar)
+- [License](https://github.com/tasdikrahman/spaceShooter#license)
+- [Donation](https://github.com/tasdikrahman/spaceShooter#donation)
 
 ## Demo
 
-[[Back to top]](https://github.com/prodicus/spaceShooter#index)
+[[Back to top]](https://github.com/tasdikrahman/spaceShooter#index)
 
 Follow the youtube video to see how I fared on ``spaceShooter``
 
@@ -36,7 +36,7 @@ Follow the youtube video to see how I fared on ``spaceShooter``
 
 ## Screenshots
 
-[[Back to top]](https://github.com/prodicus/spaceShooter#index)
+[[Back to top]](https://github.com/tasdikrahman/spaceShooter#index)
 
 | ![Screen 1](http://i.imgur.com/3MzfmbT.jpg) | ![Screen 2](http://i.imgur.com/4OgIByR.png) |
 |---------------------------------------------|---------------------------------------------|
@@ -44,7 +44,7 @@ Follow the youtube video to see how I fared on ``spaceShooter``
 
 ## Game Features
 
-[[Back to top]](https://github.com/prodicus/spaceShooter#index)
+[[Back to top]](https://github.com/tasdikrahman/spaceShooter#index)
 
 - Health bar for the space ship
 - Score board to show how you are faring so far
@@ -60,7 +60,7 @@ Follow the youtube video to see how I fared on ``spaceShooter``
 
 ## Controls
 
-[[Back to top]](https://github.com/prodicus/spaceShooter#index)
+[[Back to top]](https://github.com/tasdikrahman/spaceShooter#index)
 
 |              | Button              |
 |--------------|---------------------|
@@ -71,18 +71,18 @@ Follow the youtube video to see how I fared on ``spaceShooter``
 
 ## Installation
 
-[[Back to top]](https://github.com/prodicus/spaceShooter#index)
+[[Back to top]](https://github.com/tasdikrahman/spaceShooter#index)
 
 ### For `Windows`
 
-- :arrow_down: [Download the prebuilt zip file and unzip it.](https://github.com/prodicus/spaceShooter/releases/latest)
+- :arrow_down: [Download the prebuilt zip file and unzip it.](https://github.com/tasdikrahman/spaceShooter/releases/latest)
 - Run the executable named `spaceShooter` inside the extracted file.
 
 ### `Linux/Debian` based systems
 
 #### Option 1: Download the zipped executable file
 
-- :arrow_down: [Download the latest zip file for linux](https://github.com/prodicus/spaceShooter/releases/latest)
+- :arrow_down: [Download the latest zip file for linux](https://github.com/tasdikrahman/spaceShooter/releases/latest)
 - Unzip the file
 
 If your download was saved on the `~/Downloads` folder
@@ -123,7 +123,7 @@ $ sudo apt-get install python-pygame
 ##### Clone the repo
 
 ```bash
-$ git clone https://github.com/prodicus/spaceShooter.git
+$ git clone https://github.com/tasdikrahman/spaceShooter.git
 $ cd spaceShooter/ 
 $ python spaceShooter.py
 ```
@@ -150,33 +150,33 @@ $ brew install sdl_mixer --with-libvorbis
 ##### Clone the repo
 
 ```bash
-$ git clone https://github.com/prodicus/spaceShooter.git
+$ git clone https://github.com/tasdikrahman/spaceShooter.git
 $ cd spaceShooter/ 
 $ python spaceShooter.py
 ```
 
 ## Contributing
 
-[[Back to top]](https://github.com/prodicus/spaceShooter#index)
+[[Back to top]](https://github.com/tasdikrahman/spaceShooter#index)
 
 This game was written in one day, so the coding standards might not be up the mark. Don't be shy to make a Pull request :)
 
-For details, please refer [the Contributing page](https://github.com/prodicus/spaceShooter/blob/master/CONTRIBUTING.rst)
+For details, please refer [the Contributing page](https://github.com/tasdikrahman/spaceShooter/blob/master/CONTRIBUTING.rst)
 
 ### Contributers
 
-[[Back to top]](https://github.com/prodicus/spaceShooter#index)
+[[Back to top]](https://github.com/tasdikrahman/spaceShooter#index)
 
 - [@bardlean86](https://github.com/bardlean86/) for adding the third missile powerup and the main menu
 
 ### To-do
 
-[[Back to top]](https://github.com/prodicus/spaceShooter#index)
+[[Back to top]](https://github.com/tasdikrahman/spaceShooter#index)
 
 - [x] Add the `windows` executable file
 - [x] Add main menu for the game
-- [x] Fix [bug](https://github.com/prodicus/spaceShooter/blob/master/spaceShooter.py#L372) which stops the background music from looping 
-- [x] Add support for `WAV` game music file as `ogg` format is not playable as described in [#1](https://github.com/prodicus/spaceShooter/issues/1)
+- [x] Fix [bug](https://github.com/tasdikrahman/spaceShooter/blob/master/spaceShooter.py#L372) which stops the background music from looping 
+- [x] Add support for `WAV` game music file as `ogg` format is not playable as described in [#1](https://github.com/tasdikrahman/spaceShooter/issues/1)
 - [ ] Add feature to pause to the game.
 - [ ] add feature to replay the game after all players die
 - [ ] Add `OS X` executable file as the `Debian` based one fails to execute on it
@@ -184,9 +184,9 @@ For details, please refer [the Contributing page](https://github.com/prodicus/sp
 
 ## Issues
 
-[[Back to top]](https://github.com/prodicus/spaceShooter#index)
+[[Back to top]](https://github.com/tasdikrahman/spaceShooter#index)
 
-You can report the bugs at the [issue tracker](https://github.com/prodicus/spaceShooter/issues)
+You can report the bugs at the [issue tracker](https://github.com/tasdikrahman/spaceShooter/issues)
 
 **OR**
 
@@ -194,17 +194,17 @@ You can [tweet me](https://twitter.com/tasdikrahman) if you can't get it to work
 
 ## Similar
 
-[[Back to top]](https://github.com/prodicus/spaceShooter#index)
+[[Back to top]](https://github.com/tasdikrahman/spaceShooter#index)
 
-- [Bullethell.py ](https://github.com/Frederikxyz/bullethell.py) : A fork of [prodicus/spaceShooter](https://github.com/prodicus/spaceShooter) which adds fancy shooting capabilities
+- [Bullethell.py ](https://github.com/Frederikxyz/bullethell.py) : A fork of [tasdikrahman/spaceShooter](https://github.com/tasdikrahman/spaceShooter) which adds fancy shooting capabilities
 
 ## License
 
-[[Back to top]](https://github.com/prodicus/spaceShooter#index)
+[[Back to top]](https://github.com/tasdikrahman/spaceShooter#index)
 
-Built with ♥ by [Tasdik Rahman](http://tasdikrahman.me)[(@tasdikrahman)](https://twitter.com/tasdikrahman) under [MIT License](http://prodicus.mit-license.org)
+Built with ♥ by [Tasdik Rahman](http://tasdikrahman.me)[(@tasdikrahman)](https://twitter.com/tasdikrahman) under [MIT License](http://tasdikrahman.mit-license.org)
 
-You can find a copy of the License at http://prodicus.mit-license.org/
+You can find a copy of the License at http://tasdikrahman.mit-license.org/
 
 - The images used in the game are taken from [http://opengameart.org/](http://opengameart.org/), more particulary from the [Space shooter content pack](http://opengameart.org/content/space-shooter-redux) from [@kenney](http://opengameart.org/users/kenney).
 
@@ -214,7 +214,7 @@ License for them is in `Public Domain`
 
 ## Donation
 
-[[Back to top]](https://github.com/prodicus/spaceShooter#index)
+[[Back to top]](https://github.com/tasdikrahman/spaceShooter#index)
 
 If you have found my little bits of software being of any use to you, do consider helping me pay my internet bills :)
 
