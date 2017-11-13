@@ -114,7 +114,22 @@ A Similar process would be followed for `OS X`
 
 You need to have `pygame` installed for this option. 
 
-##### Ubuntu/Debian
+### For `FreeBSD`
+
+```sh
+$ sudo pkg install devel/py-game
+```
+
+##### Clone the repo
+```sh
+$ git clone https://github.com/tasdikrahman/spaceShooter.git
+$ cd spaceShooter/
+$ chmod +x spaceShooter.py
+$ python spaceShooter.py
+```
+
+
+### For `Ubuntu/Debian`
 
 ```bash
 $ sudo apt-get install python-pygame
