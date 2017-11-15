@@ -422,26 +422,6 @@ pygame.mixer.music.set_volume(0.2)      ## simmered the sound down a little
 player_die_sound = pygame.mixer.Sound(path.join(sound_folder, 'rumble1.ogg'))
 ###################################################
 
-## group all the sprites together for ease of update
-all_sprites = pygame.sprite.Group()
-player = Player()
-all_sprites.add(player)
-
-## spawn a group of mob
-mobs = pygame.sprite.Group()
-for i in range(8):      ## 8 mobs
-    # mob_element = Mob()
-    # all_sprites.add(mob_element)
-    # mobs.add(mob_element)
-    newmob()
-
-## group for bullets
-bullets = pygame.sprite.Group()
-powerups = pygame.sprite.Group()
-
-#### Score board variable
-score = 0
-
 ## TODO: make the game music loop over again and again. play(loops=-1) is not working
 # Error : 
 # TypeError: play() takes no keyword arguments
@@ -463,6 +443,26 @@ while running:
         pygame.mixer.music.play(-1)     ## makes the gameplay sound in an endless loop
         
         menu_display = False
+        
+        ## group all the sprites together for ease of update
+        all_sprites = pygame.sprite.Group()
+        player = Player()
+        all_sprites.add(player)
+
+        ## spawn a group of mob
+        mobs = pygame.sprite.Group()
+        for i in range(8):      ## 8 mobs
+            # mob_element = Mob()
+            # all_sprites.add(mob_element)
+            # mobs.add(mob_element)
+            newmob()
+
+        ## group for bullets
+        bullets = pygame.sprite.Group()
+        powerups = pygame.sprite.Group()
+
+        #### Score board variable
+        score = 0
         
     #1 Process input/events
     clock.tick(FPS)     ## will make the loop run at the same speed all the time
