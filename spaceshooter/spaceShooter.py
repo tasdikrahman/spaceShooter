@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#/uvsr/bin/env python
 # -*- coding: utf-8 -*-
 # @Author: tasdik
 # @Contributers : Branden (Github: @bardlean86)
@@ -20,11 +20,13 @@ import random
 from os import path
 
 ## assets folder
+## 게임에 필요한 이미지, 사운드 파일이 들어있는 파일을 불러온다
 img_dir = path.join(path.dirname(__file__), 'assets')
 sound_folder = path.join(path.dirname(__file__), 'sounds')
 
 ###############################
 ## to be placed in "constant.py" later
+## 게임이 실행될때 화면의 초기 설정
 WIDTH = 480
 HEIGHT = 600
 FPS = 60
@@ -32,6 +34,7 @@ POWERUP_TIME = 5000
 BAR_LENGTH = 100
 BAR_HEIGHT = 10
 
+## 게임에 쓰이는 색들을 정의 되어있는 부분
 # Define Colors 
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
@@ -44,98 +47,154 @@ YELLOW = (255, 255, 0)
 ###############################
 ## to placed in "__init__.py" later
 ## initialize pygame and create window
-pygame.init()
-pygame.mixer.init()  ## For sound
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Space Shooter")
-clock = pygame.time.Clock()     ## For syncing the FPS
+pygame.init() ## pygame초기화 부분
+pygame.mixer.init()  ## For sound ## pygame sound 초기화
+screen = pygame.display.set_mode((WIDTH, HEIGHT)) ## 화면을 설정 
+pygame.display.set_caption("Space Shooter") ## 위도우 창의 위 부분의 제목 
+clock = pygame.time.Clock()     ## For syncing the FPS ##FPS 감도 설정?? 이부분은 검색이 필요할듯
 ###############################
 
+## 글자 폰트 설정
 font_name = pygame.font.match_font('arial')
 
+## 메인 메뉴를 구현한 함수
 def main_menu():
+    ## 스크린을 전역 변수로 선언
     global screen
-
+    
+	## 처음 시작하고 페이지 화면의 음악
     menu_song = pygame.mixer.music.load(path.join(sound_folder, "menu.ogg"))
+	## 소리에 관하여 처리해주는 
     pygame.mixer.music.play(-1)
-
+	
+	## 메인 이미지를 로드
     title = pygame.image.load(path.join(img_dir, "main.png")).convert()
+    ## 스크린 설정 
     title = pygame.transform.scale(title, (WIDTH, HEIGHT), screen)
-
+	
+	## 스크린에 그려준다.
     screen.blit(title, (0,0))
+	## >?? 검색 필요
     pygame.display.update()
-
+	
+	## 무한정으로 입령이 들어올때까지 반복하는 반복문
     while True:
+		## 입력받은 이벤트를 ev에 저장
         ev = pygame.event.poll()
+		## 입력이 생기면 if문 안으로 들어가고 안하면 else로 들어감
         if ev.type == pygame.KEYDOWN:
+			## 입력이 생기면 입력 받은 키가 엔터이면 while문을 빠져나간다
             if ev.key == pygame.K_RETURN:
                 break
+			## 이력된 키가 q이면 게임을 끝낸다
             elif ev.key == pygame.K_q:
                 pygame.quit()
                 quit()
+		## 입력이 없으면 안내문을 뛰워주고 스크리을 업데이트 해준다.
         else:
             draw_text(screen, "Press [ENTER] To Begin", 30, WIDTH/2, HEIGHT/2)
             draw_text(screen, "or [Q] To Quit", 30, WIDTH/2, (HEIGHT/2)+40)
             pygame.display.update()
-
+	
+	## while문을 빠져나오면 
     #pygame.mixer.music.stop()
+	## 음악을 바꿔주고 플레이한다
     ready = pygame.mixer.Sound(path.join(sound_folder,'getready.ogg'))
     ready.play()
+	## 화면을 검정색으로 만들고
     screen.fill(BLACK)
+	## get ready 문구를 뛰워준다
     draw_text(screen, "GET READY!", 40, WIDTH/2, HEIGHT/2)
+	## 화면을 업데이트 해준다
     pygame.display.update()
-    
 
+## main_menu 함수는일단 게임의 첫페이지를 담당하고 있고 사운드가 플레이되고 사용자의 입력(이벤트)를 기다리고 있다.
+## 실행을 하지 말지 결정하는 단계이다.
+    
+## 텍스트를 그리는 함수
 def draw_text(surf, text, size, x, y):
     ## selecting a cross platform font to display the score
+	## 폰트 , 사이즈를 설정
     font = pygame.font.Font(font_name, size)
+	## 폰트를 흰색으로 렌더 하고 anti-aliasesd를 사용 
     text_surface = font.render(text, True, WHITE)       ## True denotes the font to be anti-aliased 
+    ## 가상의 폰트가 들어가는 사각형을 할당하고 사각형을 위치하고
     text_rect = text_surface.get_rect()
     text_rect.midtop = (x, y)
+	## 화면에 텍스트를 그린다
     surf.blit(text_surface, text_rect)
 
 
+## 플레이어 우주선에  쉴드 게이지를 나타네는 바
 def draw_shield_bar(surf, x, y, pct):
     # if pct < 0:
     #     pct = 0
+	## >>>>??pct
     pct = max(pct, 0) 
     ## moving them to top
     # BAR_LENGTH = 100
     # BAR_HEIGHT = 10
+	## 얼마나 채워져있는지 
+	## 바의 크기를
     fill = (pct / 100) * BAR_LENGTH
+	## outline_rect 쉴드 게이지 바의 아웃라인을 그려준다
     outline_rect = pygame.Rect(x, y, BAR_LENGTH, BAR_HEIGHT)
+	## 쉘드게이지바가 얼마나 채워졌는지
     fill_rect = pygame.Rect(x, y, fill, BAR_HEIGHT)
+	## 쉘드게이지바를 그려주고
     pygame.draw.rect(surf, GREEN, fill_rect)
+	## 아웃라인을 그려주고
     pygame.draw.rect(surf, WHITE, outline_rect, 2)
 
 
+## 플레이어 생명 수
 def draw_lives(surf, x, y, lives, img):
+    ## 생명 수 만큼 아이톤을 출력해준다
     for i in range(lives):
+		## 이미지를 넣어주고
         img_rect= img.get_rect()
+		##  x의 위치를 설정
         img_rect.x = x + 30 * i
+		## y의 위치를 설졍
         img_rect.y = y
+		## 화면에 그려준다
         surf.blit(img, img_rect)
 
 
-
+## 장해물??
 def newmob():
+    ## 장해물을 생성하는 것 같음
     mob_element = Mob()
+    ## 
     all_sprites.add(mob_element)
     mobs.add(mob_element)
 
+## 폭발하는 기능을 보여주는 class 
 class Explosion(pygame.sprite.Sprite):
+    #pygame.sprite.Sprite는 object를 화면에 보이게 하는 class
+    # init은 초기화는거 생성자 같은거
     def __init__(self, center, size):
+		##pygame.sprite.Sprite을 초기화
         pygame.sprite.Sprite.__init__(self)
+		## 사이즈를 설정
         self.size = size
+		## 폭발하는 이미지 설정
         self.image = explosion_anim[self.size][0]
+		## 이미지의 사각형을 설정
         self.rect = self.image.get_rect()
+		## 사각형의 중앙을 잠고
         self.rect.center = center
+		##??
         self.frame = 0 
+		## 업데이트를 해주고
         self.last_update = pygame.time.get_ticks()
+    
         self.frame_rate = 75
-
+	## 초기화한 걸로 update
     def update(self):
+        ## 시간을 넣어줌 
         now = pygame.time.get_ticks()
+        ## last_update 이해가 안감
         if now - self.last_update > self.frame_rate:
             self.last_update = now
             self.frame += 1
@@ -147,72 +206,117 @@ class Explosion(pygame.sprite.Sprite):
                 self.rect = self.image.get_rect()
                 self.rect.center = center
 
-
+## 플레이어 
 class Player(pygame.sprite.Sprite):
+    ##플레이어를 초기화해준다
     def __init__(self):
+        ## 앞에 뛰어주는 걸 초기화
         pygame.sprite.Sprite.__init__(self)
         ## scale the player img down
+        ## 우준선 이미지를 가지고오다
+        ## 이미지의 크기를 다시 설정해준다
         self.image = pygame.transform.scale(player_img, (50, 38))
+        ## 이미지의 키 값을 블랙으로 설정한다
         self.image.set_colorkey(BLACK)
+        ## 이미지의 사각형의 크기를 받아오고
         self.rect = self.image.get_rect()
+        ## 반지름을 20으로 설정
         self.radius = 20
+        ## 사각형의 중심 x 좌표
         self.rect.centerx = WIDTH / 2
+        ## 사각형의 밑부분을 설정
         self.rect.bottom = HEIGHT - 10
+        ## ?? 이거 정말 모르겠다
+        ## 속도값
         self.speedx = 0 
+        ## 쉴드 게이지를 설정
         self.shield = 100
+        ## 발사체가 나가는데 딜레이
         self.shoot_delay = 250
+        ## 마지막으로 발사한 발사채의 발사시간
         self.last_shot = pygame.time.get_ticks()
+        ## 생명
         self.lives = 3
+        ##??? 처음에 죽고나서 잠깐 히든?? 되는건?
         self.hidden = False
+        ## 히든 되어있는 시간을 설정
         self.hide_timer = pygame.time.get_ticks()
+        ## 파워 아이템을 먹은 개수... 처음에는 1로 초기화
         self.power = 1
+        ## 파워의 지속 시간
         self.power_timer = pygame.time.get_ticks()
 
+    ## player의 객체를 업데이트 하는거
     def update(self):
+        
         ## time out for powerups
+        ## 파워를 먹고 시간이 지나면 파워를 하나를 깍는다
         if self.power >=2 and pygame.time.get_ticks() - self.power_time > POWERUP_TIME:
             self.power -= 1
+            ## 파워 시간을 다시초기화
             self.power_time = pygame.time.get_ticks()
 
+        ## 히든이 왜있는거지??
+        ## 잘모르겠당///
+        ## 히든 되고 나서 몇초있다 히든이 풀리는 부분을 제어하는것 같다.
         ## unhide 
         if self.hidden and pygame.time.get_ticks() - self.hide_timer > 1000:
             self.hidden = False
             self.rect.centerx = WIDTH / 2
             self.rect.bottom = HEIGHT - 30
-
+        
+        ##??????????????????????
+        ## 위치 해있는 좌표를 0으로 초기화하는 것 같음
         self.speedx = 0     ## makes the player static in the screen by default. 
         # then we have to check whether there is an event hanlding being done for the arrow keys being 
         ## pressed 
 
+        ## 키에 따라 반응 업데이트 하는 부분
         ## will give back a list of the keys which happen to be pressed down at that moment
-        keystate = pygame.key.get_pressed()     
+        ## 무슨 키를 눌렀는지 Keystate에 저장
+        keystate = pygame.key.get_pressed()
+        ## LEFT는 -5만큼 이동     
         if keystate[pygame.K_LEFT]:
             self.speedx = -5
+        ## RIGHT는 5만큼 이동
         elif keystate[pygame.K_RIGHT]:
             self.speedx = 5
 
+        ## 스페이를 눌렀으면 발사체 발사
         #Fire weapons by holding spacebar
         if keystate[pygame.K_SPACE]:
             self.shoot()
 
+        ##  ???? 이부분은 잘모르겠음
         ## check for the borders at the left and right
         if self.rect.right > WIDTH:
             self.rect.right = WIDTH
         if self.rect.left < 0:
             self.rect.left = 0
 
+        ## 이미지를 움직인 만큼 옮겨준다
         self.rect.x += self.speedx
 
+    ## 발사하는 함수
     def shoot(self):
+        ## 시간을 업데이트 하고
         ## to tell the bullet where to spawn
         now = pygame.time.get_ticks()
+        ## 마지막으로 쏜 시간과 현재시간을 빼서 딜레이 만큼 지났으면 발살체를 발사하는 효과로 넘어가게 해준다
         if now - self.last_shot > self.shoot_delay:
+            ##마지막 발사 시간을 업데이트 해준다.
             self.last_shot = now
+            ## 우주선의 파워가 1일면
             if self.power == 1:
+                ## 발사체의 위치를 설정해준다
                 bullet = Bullet(self.rect.centerx, self.rect.top)
+                ## 화면에 보여지게 하는 부분에 설정해주고
                 all_sprites.add(bullet)
+                ## ???
                 bullets.add(bullet)
+                ## 소리를 플레이해준다
                 shooting_sound.play()
+            ## 파워 2개
             if self.power == 2:
                 bullet1 = Bullet(self.rect.left, self.rect.centery)
                 bullet2 = Bullet(self.rect.right, self.rect.centery)
@@ -222,6 +326,7 @@ class Player(pygame.sprite.Sprite):
                 bullets.add(bullet2)
                 shooting_sound.play()
 
+            ## 파워 3개 
             """ MOAR POWAH """
             if self.power >= 3:
                 bullet1 = Bullet(self.rect.left, self.rect.centery)
@@ -235,11 +340,12 @@ class Player(pygame.sprite.Sprite):
                 bullets.add(missile1)
                 shooting_sound.play()
                 missile_sound.play()
-
+    ## 파워 아이템을 먹었을때 
     def powerup(self):
         self.power += 1
         self.power_time = pygame.time.get_ticks()
-
+    ## 죽었다 다시 살았을때??
+    ## 그런것 같음..
     def hide(self):
         self.hidden = True
         self.hide_timer = pygame.time.get_ticks()
