@@ -351,30 +351,37 @@ class Player(pygame.sprite.Sprite):
         self.hide_timer = pygame.time.get_ticks()
         self.rect.center = (WIDTH / 2, HEIGHT + 200)
 
-
+# 장애물에 대한 정보저장
 # defines the enemies
 class Mob(pygame.sprite.Sprite):
+    #mob class에 현재 게임 화면에 대한 정보를 줌
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
+        ##게임화면에 몹에대한정보를 초기화시켜주고
         self.image_orig = random.choice(meteor_images)
+        ##운석의 이미지를 랜덤으로 지정
         self.image_orig.set_colorkey(BLACK)
+        ##운석의base color를 검정으로설정
         self.image = self.image_orig.copy()
+        ##몹클래스에 아까받은 이미지를 복사
         self.rect = self.image.get_rect()
         self.radius = int(self.rect.width *.90 / 2)
         self.rect.x = random.randrange(0, WIDTH - self.rect.width)
         self.rect.y = random.randrange(-150, -100)
         self.speedy = random.randrange(5, 20)        ## for randomizing the speed of the Mob
+        ##몹의 이동속도를 조정
 
-        ## randomize the movements a little more 
+        ## 몹의이동경로를 더자세하게 표현하기위함? 
         self.speedx = random.randrange(-3, 3)
 
-        ## adding rotation to the mob element
+        ## 몹의위치와새로운몹을만들어냄
         self.rotation = 0
         self.rotation_speed = random.randrange(-8, 8)
         self.last_update = pygame.time.get_ticks()  ## time when the rotation has to happen
         
     def rotate(self):
         time_now = pygame.time.get_ticks()
+        ##진행된게임시간을불러옴??
         if time_now - self.last_update > 50: # in milliseconds
             self.last_update = time_now
             self.rotation = (self.rotation + self.rotation_speed) % 360 
@@ -389,24 +396,32 @@ class Mob(pygame.sprite.Sprite):
         self.rect.x += self.speedx
         self.rect.y += self.speedy
         ## now what if the mob element goes out of the screen
+        ##몹들을 이동시킴
 
         if (self.rect.top > HEIGHT + 10) or (self.rect.left < -25) or (self.rect.right > WIDTH + 20):
             self.rect.x = random.randrange(0, WIDTH - self.rect.width)
             self.rect.y = random.randrange(-100, -40)
             self.speedy = random.randrange(1, 8)        ## for randomizing the speed of the Mob
-
+        ##몹의이동스피드도랜덤으로설정하게함
+## 폭팔관련클래스(터지는효과)
 ## defines the sprite for Powerups
 class Pow(pygame.sprite.Sprite):
     def __init__(self, center):
         pygame.sprite.Sprite.__init__(self)
+        ##화면에클래스연동
         self.type = random.choice(['shield', 'gun'])
+        ##타입에 shield나 gun을랜덤으로추가해줌
         self.image = powerup_images[self.type]
+        ##이미지추가
         self.image.set_colorkey(BLACK)
         self.rect = self.image.get_rect()
         ## place the bullet according to the current position of the player
         self.rect.center = center
+        ##가운데에위치시킴
         self.speedy = 2
+        ##속도를2로조정
 
+    ##바뀐정보를 업데이트 해 줌
     def update(self):
         """should spawn right in front of the player"""
         self.rect.y += self.speedy
@@ -414,11 +429,14 @@ class Pow(pygame.sprite.Sprite):
         if self.rect.top > HEIGHT:
             self.kill()
 
-            
+    ##만약 화면의끝에 폭팔이닿으면 현재의것을 없앤다??    
 
+
+##날아다니는총알에대한정보
 ## defines the sprite for bullets
 class Bullet(pygame.sprite.Sprite):
     def __init__(self, x, y):
+        ##총알을 초기화 시켜주고
         pygame.sprite.Sprite.__init__(self)
         self.image = bullet_img
         self.image.set_colorkey(BLACK)
@@ -426,30 +444,40 @@ class Bullet(pygame.sprite.Sprite):
         ## place the bullet according to the current position of the player
         self.rect.bottom = y 
         self.rect.centerx = x
+        ##날아갈위치를정해주고
         self.speedy = -10
-
+        ##위방향으로 10의속도로 진행
+        
+    ##바뀐내용을업데이트
     def update(self):
         """should spawn right in front of the player"""
         self.rect.y += self.speedy
+        ##x좌표는 고정 시키고 y좌표만 이동시킨다.
         ## kill the sprite after it moves over the top border
         if self.rect.bottom < 0:
             self.kill()
-
+        ##만약총알이화면끝에닿으면총알제거
         ## now we need a way to shoot
         ## lets bind it to "spacebar".
         ## adding an event for it in Game loop
 
+
+##미사일에대한정보가담겨있음
 ## FIRE ZE MISSILES
 class Missile(pygame.sprite.Sprite):
     def __init__(self, x, y):
+        ##초기화에관한내용
         pygame.sprite.Sprite.__init__(self)
         self.image = missile_img
+        ##미사일의 이미지를 추가한다.
         self.image.set_colorkey(BLACK)
         self.rect = self.image.get_rect()
+        ##미사일의 발사 위치를 설정하고
         self.rect.bottom = y
         self.rect.centerx = x
+        ##위로10의 속도 만큼 진행시킨다.
         self.speedy = -10
-
+    ##다시그려줌. bullet클래스의내용과동일.
     def update(self):
         """should spawn right in front of the player"""
         self.rect.y += self.speedy
@@ -459,16 +487,22 @@ class Missile(pygame.sprite.Sprite):
 
 ###################################################
 ## Load all game images
+##게임 이미지를 로드하기 위한 부분.
 
 background = pygame.image.load(path.join(img_dir, 'starfield.png')).convert()
 background_rect = background.get_rect()
 ## ^^ draw this rect first 
-
+##배경화면불러오기
 player_img = pygame.image.load(path.join(img_dir, 'playerShip1_orange.png')).convert()
+##플레이어이미지를불러옴
 player_mini_img = pygame.transform.scale(player_img, (25, 19))
+##위에뜨는목숨에관한정보
+##플레이어이미지를축소화시키고 목숨의개수만큼불러오기위해 저렇게만든듯?
 player_mini_img.set_colorkey(BLACK)
 bullet_img = pygame.image.load(path.join(img_dir, 'laserRed16.png')).convert()
+##레이저이미지
 missile_img = pygame.image.load(path.join(img_dir, 'missile.png')).convert_alpha()
+#미사일이미지
 # meteor_img = pygame.image.load(path.join(img_dir, 'meteorBrown_med1.png')).convert()
 meteor_images = []
 meteor_list = [
@@ -480,10 +514,10 @@ meteor_list = [
     'meteorBrown_small2.png',
     'meteorBrown_tiny1.png'
 ]
-
+##운석의이미지인데 랜덤으로불러오기위해배열을사용
 for image in meteor_list:
     meteor_images.append(pygame.image.load(path.join(img_dir, image)).convert())
-
+##모든이미지를로드함
 ## meteor explosion
 explosion_anim = {}
 explosion_anim['lg'] = []
@@ -516,15 +550,18 @@ powerup_images['gun'] = pygame.image.load(path.join(img_dir, 'bolt_gold.png')).c
 
 ###################################################
 ### Load all game sounds
-shooting_sound = pygame.mixer.Sound(path.join(sound_folder, 'pew.wav'))
-missile_sound = pygame.mixer.Sound(path.join(sound_folder, 'rocket.ogg'))
+##게임사운드를 불러옴.
+shooting_sound = pygame.mixer.Sound(path.join(sound_folder, 'pew.wav'))##발사할때마다불러오는듯
+missile_sound = pygame.mixer.Sound(path.join(sound_folder, 'rocket.ogg'))##미사일발사할때.
 expl_sounds = []
-for sound in ['expl3.wav', 'expl6.wav']:
+for sound in ['expl3.wav', 'expl6.wav']:##폭팔사운드인듯
     expl_sounds.append(pygame.mixer.Sound(path.join(sound_folder, sound)))
 ## main background music
 #pygame.mixer.music.load(path.join(sound_folder, 'tgfcoder-FrozenJam-SeamlessLoop.ogg'))
 pygame.mixer.music.set_volume(0.2)      ## simmered the sound down a little
+##사운드의크기를작게..
 
+##죽을때 소리ㅋ
 player_die_sound = pygame.mixer.Sound(path.join(sound_folder, 'rumble1.ogg'))
 ###################################################
 
@@ -532,19 +569,20 @@ player_die_sound = pygame.mixer.Sound(path.join(sound_folder, 'rumble1.ogg'))
 all_sprites = pygame.sprite.Group()
 player = Player()
 all_sprites.add(player)
-
+##이모든정보를 초기화시키는역할인듯?(화면에 java frame 같은역할인가..)
 ## spawn a group of mob
+##몹을랜덤으로생성함(운석)
 mobs = pygame.sprite.Group()
 for i in range(8):      ## 8 mobs
     # mob_element = Mob()
     # all_sprites.add(mob_element)
     # mobs.add(mob_element)
     newmob()
-
+##총알하고 파워업에대한배열
 ## group for bullets
 bullets = pygame.sprite.Group()
 powerups = pygame.sprite.Group()
-
+##점수. 당연히 0점부터시작.
 #### Score board variable
 score = 0
 
@@ -555,59 +593,72 @@ score = 0
 
 #############################
 ## Game loop
+##메인게임루프
 running = True
+#쓰레드를돌아가게설정하고
 menu_display = True
+#메뉴화면을먼저보여줌
 while running:
     if menu_display:
         main_menu()
         pygame.time.wait(3000)
-
+        #메뉴화면이켜지고 3000ms 즉5초동안 메뉴화면을보여줌
+    
         #Stop menu music
         pygame.mixer.music.stop()
+        #메뉴음악을끄고 게임음악을불러옴
         #Play the gameplay music
         pygame.mixer.music.load(path.join(sound_folder, 'tgfcoder-FrozenJam-SeamlessLoop.ogg'))
         pygame.mixer.music.play(-1)     ## makes the gameplay sound in an endless loop
-        
+        #메뉴화면을끔
         menu_display = False
         
     #1 Process input/events
+    #화면프레임체크? 항상같이돌아야함. 프레임이 고정적이지못하면 보이는화면이 지저분해짐
     clock.tick(FPS)     ## will make the loop run at the same speed all the time
     for event in pygame.event.get():        # gets all the events which have occured till now and keeps tab of them.
         ## listening for the the X button at the top
         if event.type == pygame.QUIT:
             running = False
-
+        #ECS를누르면게임에서나가짐
         ## Press ESC to exit game
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 running = False
+                ##쓰레드루프를종료시킴
         # ## event for shooting the bullets
         # elif event.type == pygame.KEYDOWN:
         #     if event.key == pygame.K_SPACE:
         #         player.shoot()      ## we have to define the shoot()  function
 
     #2 Update
+        ##모든화면에표시될것들을 업데이트시켜줌
     all_sprites.update()
 
 
     ## check if a bullet hit a mob
     ## now we have a group of bullets and a group of mob
+    ##만약에 몹에 맞을경우
     hits = pygame.sprite.groupcollide(mobs, bullets, True, True)
     ## now as we delete the mob element when we hit one with a bullet, we need to respawn them again
     ## as there will be no mob_elements left out 
+    #
     for hit in hits:
         score += 50 - hit.radius         ## give different scores for hitting big and small metoers
         random.choice(expl_sounds).play()
+        ##폭발사운드를랜덤으로불러옴
         # m = Mob()
         # all_sprites.add(m)
         # mobs.add(m)
         expl = Explosion(hit.rect.center, 'lg')
         all_sprites.add(expl)
+        ##띠용??
         if random.random() > 0.9:
             pow = Pow(hit.rect.center)
             all_sprites.add(pow)
             powerups.add(pow)
         newmob()        ## spawn a new mob
+        ##새로운몹을생성
 
     ## ^^ the above loop will create the amount of mob objects which were killed spawn again
     #########################
@@ -615,19 +666,29 @@ while running:
     ## check if the player collides with the mob
     hits = pygame.sprite.spritecollide(player, mobs, True, pygame.sprite.collide_circle)        ## gives back a list, True makes the mob element disappear
     for hit in hits:
+        ##플레이어가 운석에맞을때.
         player.shield -= hit.radius * 2
+        ##쉴드의 개수를 지움.
         expl = Explosion(hit.rect.center, 'sm')
+        ##폭팔이미지추가
         all_sprites.add(expl)
+        ##다시그리기. 폭발을추가해서.
         newmob()
-        if player.shield <= 0: 
+        ##새로운몹추가.
+        if player.shield <= 0:
+            ##플레이어의 쉴드가 0보다 크면
             player_die_sound.play()
+            ##죽는사운드.
             death_explosion = Explosion(player.rect.center, 'player')
+            ##죽는폭발추가?
             all_sprites.add(death_explosion)
             # running = False     ## GAME OVER 3:D
             player.hide()
             player.lives -= 1
             player.shield = 100
+            ##플레이어를지움.
 
+    ##플레이어가파워업아이템을 맟추면
     ## if the player hit a power up
     hits = pygame.sprite.spritecollide(player, powerups, True)
     for hit in hits:
@@ -637,26 +698,28 @@ while running:
                 player.shield = 100
         if hit.type == 'gun':
             player.powerup()
-
+    ##만약플레이어가죽으면.
     ## if player died and the explosion has finished, end game
     if player.lives == 0 and not death_explosion.alive():
         running = False
+        ##쓰레드종료.
         # menu_display = True
         # pygame.display.update()
 
     #3 Draw/render
+    ##검정색화면으로그리기.
     screen.fill(BLACK)
     ## draw the stargaze.png image
     screen.blit(background, background_rect)
-
+    ##화면다시그리기.
     all_sprites.draw(screen)
     draw_text(screen, str(score), 18, WIDTH / 2, 10)     ## 10px down from the screen
     draw_shield_bar(screen, 5, 5, player.shield)
-
+    
     # Draw lives
     draw_lives(screen, WIDTH - 100, 5, player.lives, player_mini_img)
-
+    
     ## Done after drawing everything to the screen
     pygame.display.flip()       
-
+##게임종료.
 pygame.quit()
