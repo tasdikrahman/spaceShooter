@@ -171,7 +171,8 @@ class Player(pygame.sprite.Sprite): #Player 스프라이트 클래스입니다.
         self.hide_timer = pygame.time.get_ticks() 
         self.power = 1 #파위가 0이면 미사일 자체가 발사되지 않습니다. 발사와 관련되어있습니다.
         self.power_timer = pygame.time.get_ticks()
- 
+        background1_rect.top = -600 #움직이는 배경중 뒷부분 첫 설정입니다.
+        
     def update(self): #업데이트 함수입니다.
         ## time out for powerups
         if self.power >=2 and pygame.time.get_ticks() - self.power_time > POWERUP_TIME: #이것을 통해 파워시간이 다되면 파워가 줄어들도록 합니다.
@@ -187,14 +188,18 @@ class Player(pygame.sprite.Sprite): #Player 스프라이트 클래스입니다.
         self.speedx = 0     ## makes the player static in the screen by default. 
         # then we have to check whether there is an event hanlding being done for the arrow keys being 
         ## pressed 
- 
+        self.speedy = 0  
         ## will give back a list of the keys which happen to be pressed down at that moment
         keystate = pygame.key.get_pressed()   #키의 현재상태를 나타냅니다.  
         if keystate[pygame.K_LEFT]: #왼쪽키라면 
             self.speedx = -5 #좌로
         elif keystate[pygame.K_RIGHT]: #오른쪽키라면
-            self.speedx = 5 #우측 
- 
+            self.speedx = 5 #우측
+        elif keystate[pygame.K_UP]:
+            self.speedy= -5
+        elif keystate[pygame.K_DOWN]:
+            self.speedy= 5
+            
         #Fire weapons by holding spacebar
         if keystate[pygame.K_SPACE]: #키가 스페이스가 눌리면
             self.shoot() #발사
@@ -204,9 +209,13 @@ class Player(pygame.sprite.Sprite): #Player 스프라이트 클래스입니다.
             self.rect.right = WIDTH #동일시합니다.
         if self.rect.left < 0:  #좌측이 0보다 작으면 
             self.rect.left = 0 #0과 동일 시 합니다.
- 
-        self.rect.x += self.speedx
- 
+        if self.rect.top < 0:  #화면 위쪽을 못 벗어나게 합니다.
+            self.rect.top = 0 
+        if self.rect.top > 560:  #아래 화면 못벋어나게 합니다.  
+            self.rect.top = 560 
+        self.rect.x += self.speedx #x좌표 변화율입니다. 
+        self.rect.y += self.speedy #y좌표 변화율입니다.
+        # 이거 찍으면 위치 추적 됩니다. print(self.rect)
     def shoot(self): #미사일 발사와 관련된 함수입니다.
         ## to tell the bullet where to spawn
         now = pygame.time.get_ticks()
@@ -250,7 +259,6 @@ class Player(pygame.sprite.Sprite): #Player 스프라이트 클래스입니다.
         self.rect.center = (WIDTH / 2, HEIGHT + 200) 
  
 
-
 # defines the enemies
 class Mob(pygame.sprite.Sprite):
     def __init__(self):
@@ -263,15 +271,15 @@ class Mob(pygame.sprite.Sprite):
         self.rect.x = random.randrange(0, WIDTH - self.rect.width)
         self.rect.y = random.randrange(-150, -100)
         self.speedy = random.randrange(5, 20)        ## for randomizing the speed of the Mob
-
+ 
         ## randomize the movements a little more 
         self.speedx = random.randrange(-3, 3)
-
+ 
         ## adding rotation to the mob element
         self.rotation = 0
         self.rotation_speed = random.randrange(-8, 8)
         self.last_update = pygame.time.get_ticks()  ## time when the rotation has to happen
-        
+ 
     def rotate(self):
         time_now = pygame.time.get_ticks()
         if time_now - self.last_update > 50: # in milliseconds
@@ -282,17 +290,25 @@ class Mob(pygame.sprite.Sprite):
             self.image = new_image
             self.rect = self.image.get_rect()
             self.rect.center = old_center
-
+ 
     def update(self):
         self.rotate()
         self.rect.x += self.speedx
         self.rect.y += self.speedy
         ## now what if the mob element goes out of the screen
-
+ 
         if (self.rect.top > HEIGHT + 10) or (self.rect.left < -25) or (self.rect.right > WIDTH + 20):
             self.rect.x = random.randrange(0, WIDTH - self.rect.width)
             self.rect.y = random.randrange(-100, -40)
             self.speedy = random.randrange(1, 8)        ## for randomizing the speed of the Mob
+        background_rect.top += 1 #배경 움직이기 입니다.
+        if (background_rect.top == 600):
+            background_rect.top = -600
+ 
+        background1_rect.top += 1 #배경 다음에 오는 배경 움직이기 입니다.
+        if (background1_rect.top == 600):
+            background1_rect.top = -600
+ 
 
 ## defines the sprite for Powerups
 class Pow(pygame.sprite.Sprite):
@@ -360,7 +376,9 @@ class Missile(pygame.sprite.Sprite):
 ## Load all game images
 
 background = pygame.image.load(path.join(img_dir, 'starfield.png')).convert()
+background1 = pygame.image.load(path.join(img_dir, 'starfield.png')).convert()
 background_rect = background.get_rect()
+background1_rect = background1.get_rect()
 ## ^^ draw this rect first 
 
 player_img = pygame.image.load(path.join(img_dir, 'playerShip1_orange.png')).convert()
@@ -543,6 +561,7 @@ while running: #바로 위에서 정의한 running이 참이기 때문에 무한
     screen.fill(BLACK)
     ## draw the stargaze.png image
     screen.blit(background, background_rect)
+    screen.blit(background1, background1_rect)
 
 
     #모든 sprites들을 화면에 가져온다
