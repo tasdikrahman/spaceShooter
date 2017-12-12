@@ -34,6 +34,7 @@ BAR_LENGTH = 100 #체력 바 길이 100
 BAR_HEIGHT = 10 #체력 바 높이 10
  
 # Define Colors # 색 정의 (튜플로 표기되었습니다.)
+ALPHA_BLACK = (0, 0, 0, 0.45) #배경화면을 위한 색
 WHITE = (255, 255, 255) #흰색 
 BLACK = (0, 0, 0) #검정색 
 RED = (255, 0, 0) #빨강 
@@ -77,9 +78,10 @@ def main_menu(): #메인 메뉴 함수를 정의합니다.
         elif ev.type == pygame.QUIT: #윈도우의 닫기 버튼을 클릭했을 경우 
                 pygame.quit() #게임을 끄도록 합니다.
                 quit() #나갑니다. 
-        else:
+        else: #메인 메뉴에서 아래와 같은 text를 출력하게 해줌
             draw_text(screen, "Press [ENTER] To Begin", 30, WIDTH/2, HEIGHT/2) #글자를 출력합니다.
-            draw_text(screen, "or [Q] To Quit", 30, WIDTH/2, (HEIGHT/2)+40) #글자를 출력합니다.
+            draw_text(screen, "and [P] To Pause", 30, WIDTH/2, (HEIGHT/2)+40) 
+            draw_text(screen, "or [Q] To Quit", 30, WIDTH/2, (HEIGHT/2)+80)
             pygame.display.update() #화면 전체를 다시한번 업데이트 합니다. 
  
     #pygame.mixer.music.stop() 
@@ -126,7 +128,7 @@ def newmob(): #새로운 몹에대한 함수입니다. (운석)
     mob_element = Mob() #mob_element를 Mob으로 정의합니다.
     all_sprites.add(mob_element) #전체 스프라이트에 mob_element를 추가를 합니다.
     mobs.add(mob_element) #mobs에 mob_element를 추가해줍니다.
- 
+
 class Explosion(pygame.sprite.Sprite): #Explosion 스프라이트 클래스입니다.
     def __init__(self, center, size): #초기화 함수입니다.
         pygame.sprite.Sprite.__init__(self) #pygame의 스프라이트를 초기화합니다.
@@ -195,16 +197,20 @@ class Player(pygame.sprite.Sprite): #Player 스프라이트 클래스입니다.
             self.speedx = -5 #좌로
         elif keystate[pygame.K_RIGHT]: #오른쪽키라면
             self.speedx = 5 #우측
-        elif keystate[pygame.K_UP]:
+        elif keystate[pygame.K_UP]: #up 키라면
             self.speedy= -5
-        elif keystate[pygame.K_DOWN]:
+        elif keystate[pygame.K_DOWN]: #down 키라면
             self.speedy= 5
             
         #Fire weapons by holding spacebar
         if keystate[pygame.K_SPACE]: #키가 스페이스가 눌리면
             self.shoot() #발사
+
+        if keystate[pygame.K_p]: #게임중 p키를 누르면
+            self.pause() #pause함수를 불러옴
+            
  
-        ## check for the borders at the left and right #왼쪽과 오른쪽 테두리를 확인합니다.
+        #왼쪽과 오른쪽 테두리를 확인합니다.
         if self.rect.right > WIDTH: #우측이 너비보다 크면 
             self.rect.right = WIDTH #동일시합니다.
         if self.rect.left < 0:  #좌측이 0보다 작으면 
@@ -216,6 +222,29 @@ class Player(pygame.sprite.Sprite): #Player 스프라이트 클래스입니다.
         self.rect.x += self.speedx #x좌표 변화율입니다. 
         self.rect.y += self.speedy #y좌표 변화율입니다.
         # 이거 찍으면 위치 추적 됩니다. print(self.rect)
+
+    '''사용자가 p키를 눌러 pause를 할 수 있게 만들어 주는 함수로 함수를 부르자 마자 paused가 True가 됨으로써
+    일시정지가 되고 pause인 상태에서 c키를 누르면 paused가 False가 되면서 게임을 계속 진행할 수 있고 q키를 누르게 된다면 
+    게임이 바로 종료되며 위에서 선언한 ALPHA_BLACK으로 화면을 바꿔주고 draw_text를 통해 text를 출력하여
+    어떤 버튼을 눌러야 하는지를 알려준다.
+    '''
+    def pause(self):
+        paused = True 
+        while paused:
+            ev = pygame.event.poll()
+            if ev.type == pygame.KEYDOWN:
+                if ev.key == pygame.K_c:
+                    paused = False
+                elif ev.key == pygame.K_q:
+                    pygame.quit()
+                    quit()
+
+            screen.fill(ALPHA_BLACK)
+            draw_text(screen, "Paused", 30, WIDTH/2, HEIGHT/2 - 70)
+            draw_text(screen, "Press [C] to contiune and [Q] to exit!", 20, WIDTH/2, HEIGHT/2 + 10)
+            pygame.display.update()
+      
+       
     def shoot(self): #미사일 발사와 관련된 함수입니다.
         ## to tell the bullet where to spawn
         now = pygame.time.get_ticks()
@@ -236,7 +265,7 @@ class Player(pygame.sprite.Sprite): #Player 스프라이트 클래스입니다.
                 shooting_sound.play() #슛 소리를 냅니다.
  
             """ MOAR POWAH """
-            if self.power >= 3: #파워가 3보다 같거나 클 경우 
+            if self.power == 3: #파워가 3일 경우
                 bullet1 = Bullet(self.rect.left, self.rect.centery)  #총알을 추가합니다.
                 bullet2 = Bullet(self.rect.right, self.rect.centery) #2번째 총알을 추가합니다.
                 missile1 = Missile(self.rect.centerx, self.rect.top) # Missile shoots from center of ship
@@ -248,7 +277,32 @@ class Player(pygame.sprite.Sprite): #Player 스프라이트 클래스입니다.
                 bullets.add(missile1) #3번째 미사일을 추가합니다.
                 shooting_sound.play() #슛 소리를 냅니다.
                 missile_sound.play() #미사일 소리를 냅니다.
- 
+
+            if self.power == 4: #파워가 4일 경우
+                missile1 = Missile(self.rect.left, self.rect.centery) #미사일 추가
+                missile2 = Missile(self.rect.right, self.rect.centery) #미사일 추가
+                bullet1 = Bullet(self.rect.centerx, self.rect.top) #총알
+                all_sprites.add(missile1) #1번째 미사일 
+                all_sprites.add(missile2) #2번째 미사일
+                all_sprites.add(bullet1)
+                bullets.add(missile1) #1번째 미사일 
+                bullets.add(missile2) #2번째 미사일
+                bullets.add(bullet1)
+                shooting_sound.play()
+                missile_sound.play() #미사일 소리를 낸다
+
+            if self.power >= 5:
+                missile1 = Missile(self.rect.left, self.rect.centery) #미사일 추가 왼쪽 방향
+                missile2 = Missile(self.rect.right, self.rect.centery) #미사일 추가 오른쪽 방향
+                missile3 = Missile(self.rect.centerx, self.rect.top) #미사일 추가 가운데 방향
+                all_sprites.add(missile1) #1번째 미사일 
+                all_sprites.add(missile2) #2번째 미사일
+                all_sprites.add(missile3) #3번째 미사일
+                bullets.add(missile1) #1번째 미사일
+                bullets.add(missile2) #2번째 미사일
+                bullets.add(missile3) #3번째 미사일
+                missile_sound.play() #미사일 소리를 낸다
+
     def powerup(self): #파워업 함수입니다.
         self.power += 1 #파워업을 먹을 시에는 파워가 1씩 증가합니다.
         self.power_time = pygame.time.get_ticks() #파워업된 시간이 들어갑니다.
@@ -301,6 +355,7 @@ class Mob(pygame.sprite.Sprite):
             self.rect.x = random.randrange(0, WIDTH - self.rect.width)
             self.rect.y = random.randrange(-100, -40)
             self.speedy = random.randrange(1, 8)        ## for randomizing the speed of the Mob
+
         background_rect.top += 1 #배경 움직이기 입니다.
         if (background_rect.top == 600):
             background_rect.top = -600
@@ -308,7 +363,7 @@ class Mob(pygame.sprite.Sprite):
         background1_rect.top += 1 #배경 다음에 오는 배경 움직이기 입니다.
         if (background1_rect.top == 600):
             background1_rect.top = -600
- 
+
 
 ## defines the sprite for Powerups
 class Pow(pygame.sprite.Sprite):
@@ -375,6 +430,7 @@ class Missile(pygame.sprite.Sprite):
 ###################################################
 ## Load all game images
 
+#배경화면 2개를 선언해줌
 background = pygame.image.load(path.join(img_dir, 'starfield.png')).convert()
 background1 = pygame.image.load(path.join(img_dir, 'starfield.png')).convert()
 background_rect = background.get_rect()
@@ -445,7 +501,6 @@ pygame.mixer.music.set_volume(0.2)      ## simmered the sound down a little
 player_die_sound = pygame.mixer.Sound(path.join(sound_folder, 'rumble1.ogg'))
 ###################################################
 
-
 #아래부터 내가 해야될 것
 ## TODO: make the game music loop over again and again. play(loops=-1) is not working
 # Error : 
@@ -454,6 +509,7 @@ player_die_sound = pygame.mixer.Sound(path.join(sound_folder, 'rumble1.ogg'))
 
 #############################
 
+#main
 running = True #게임을 특정 이벤트가 일어나지 않는한 무한루프로 실행시키기 위해 running이란 변수를 True(참)으로 할당해줌
 menu_display = True #게임이 진행되는 동안 display또한 계속 보여져야 하므로 True(참)으로 할당해줌
 ## Game loop를 조정해주는 while문
@@ -470,26 +526,27 @@ while running: #바로 위에서 정의한 running이 참이기 때문에 무한
         
         menu_display = False
         
-        ## group all the sprites together for ease of update
+         ## group all the sprites together for ease of update
         all_sprites = pygame.sprite.Group() #모든 스프라이트들을 pygame.sprite.Group()함수를 통해 그룹핑해준다
         player = Player() #player에 Player()함수를 불러주고
         all_sprites.add(player) #그룹핑 되어있는 모든 스프라이트틀에 player를 넣어줌
 
-        ## spawn a group of mob
+        #### Score board variable
+        score = 0 #장애물을 격파 시킬 때마다 누적되는 점수
+
+        ## spawn a group of mob if문 써서 뭐가 뭐이면 숫자 조정해주면 될거같은데
         mobs = pygame.sprite.Group() #몬스터 몹을 출현시키기 위해 만들어준거임
+
         for i in range(8):      ## 8 mobs
             # mob_element = Mob()
             # all_sprites.add(mob_element)
             # mobs.add(mob_element)
             newmob()
-
         ## group for bullets
         bullets = pygame.sprite.Group() #레이저
         powerups = pygame.sprite.Group() #레이저를 업그레이드 시켜주는 아이템
 
-        #### Score board variable
-        score = 0 #장애물을 격파 시킬 때마다 누적되는 점수
-        
+
     #1 Process input/events
     clock.tick(FPS)     ##게임의 속도를 같은 속도로 해줌
     for event in pygame.event.get():        # gets all the events which have occured till now and keeps tab of them.
@@ -513,6 +570,7 @@ while running: #바로 위에서 정의한 running이 참이기 때문에 무한
     hits = pygame.sprite.groupcollide(mobs, bullets, True, True)
     for hit in hits: 
         score += 50 - hit.radius         ##장애물의 크기에 따라 격파 시켰을 때 주는 점수를 다르게 해줌
+
         random.choice(expl_sounds).play()
         # m = Mob()
         # all_sprites.add(m)
@@ -548,18 +606,21 @@ while running: #바로 위에서 정의한 running이 참이기 때문에 무한
             player.shield += random.randrange(10, 30)
             if player.shield >= 100:
                 player.shield = 100
-        if hit.type == 'gun': #플레이어의 레이저의 성능을 한단계 높여줌ㅈ
+        if hit.type == 'gun': #플레이어의 레이저의 성능을 한단계 높여줌
             player.powerup()
-
     ## if player died and the explosion has finished, end game
     if player.lives == 0 and not death_explosion.alive():
         running = False
         # menu_display = True
         # pygame.display.update()
 
+
     #3 Draw/render
     screen.fill(BLACK)
     ## draw the stargaze.png image
+
+    #blit함수를 통해 background사진 2개를 번갈아 가면서
+    #보이게 함으로써 dynamic한 배경화면을 구현함
     screen.blit(background, background_rect)
     screen.blit(background1, background1_rect)
 
