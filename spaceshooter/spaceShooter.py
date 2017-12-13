@@ -313,37 +313,35 @@ class Player(pygame.sprite.Sprite): #Player 스프라이트 클래스입니다.
         self.rect.center = (WIDTH / 2, HEIGHT + 200) 
  
 
-# defines the enemies
+# 적(운석)에 관한 클래스.
 class Mob(pygame.sprite.Sprite):
     def __init__(self):
-        pygame.sprite.Sprite.__init__(self)
-        self.image_orig = random.choice(meteor_images)
-        self.image_orig.set_colorkey(BLACK)
-        self.image = self.image_orig.copy()
-        self.rect = self.image.get_rect()
-        self.radius = int(self.rect.width *.90 / 2)
-        self.rect.x = random.randrange(0, WIDTH - self.rect.width)
-        self.rect.y = random.randrange(-150, -100)
-        self.speedy = random.randrange(5, 20)        ## for randomizing the speed of the Mob
- 
-        ## randomize the movements a little more 
+        pygame.sprite.Sprite.__init__(self) # pygame 내 sprite 초기화 / 추가 합니다.
+        self.image_orig = random.choice(meteor_images)  # 운석 이미지를 랜덤으로 로드합니다.
+        self.image_orig.set_colorkey(BLACK) # 나머지 부분의 배경색을 설정힙니다.
+        self.image = self.image_orig.copy() # 선택된 운석 이미지로 복사하여 설정합니다.
+        self.rect = self.image.get_rect() # 이미지에 대한 위치 및 너비 높이 정보를 로드합니다.
+        self.radius = int(self.rect.width *.90 / 2) # 너비를 구합니다.
+        self.rect.x = random.randrange(0, WIDTH - self.rect.width)  ## 움직일 수 있는 가로 및 
+        self.rect.y = random.randrange(-150, -100)                  ## 세로 길이를 randomize 합니다.
+        self.speedy = random.randrange(5, 20)       # 운석의 움직임을 속도를 이용해 randomize 합니다.
         self.speedx = random.randrange(-3, 3)
- 
-        ## adding rotation to the mob element
+        
+        # 운석 이 자체에 대한 순환을 설정합니다.
         self.rotation = 0
-        self.rotation_speed = random.randrange(-8, 8)
-        self.last_update = pygame.time.get_ticks()  ## time when the rotation has to happen
- 
+        self.rotation_speed = random.randrange(-8, 8) # 순환 범위 및 속도(주기)를 randomize 합니다.
+        self.last_update = pygame.time.get_ticks()  # 가장 최근에 순환된 시간을 로드합니다. 
+
     def rotate(self):
-        time_now = pygame.time.get_ticks()
-        if time_now - self.last_update > 50: # in milliseconds
-            self.last_update = time_now
+        time_now = pygame.time.get_ticks() # 가장 최근에 순환된 기점부터
+        if time_now - self.last_update > 50: # 단위는 ms입니다.
+            self.last_update = time_now # 현재 시간으로 업데이트 합니다.
             self.rotation = (self.rotation + self.rotation_speed) % 360 
-            new_image = pygame.transform.rotate(self.image_orig, self.rotation)
-            old_center = self.rect.center
-            self.image = new_image
-            self.rect = self.image.get_rect()
-            self.rect.center = old_center
+            new_image = pygame.transform.rotate(self.image_orig, self.rotation) # 새 운석 이미지로 업데이트 하여 다시 순환시킵니다.
+            old_center = self.rect.center # 이전에 있던 위치를 로드합니다.
+            self.image = new_image              ## 새 운석 이미지 
+            self.rect = self.image.get_rect()   ## 및
+            self.rect.center = old_center       ## 위치 재로드
  
     def update(self):
         self.rotate()
@@ -351,6 +349,7 @@ class Mob(pygame.sprite.Sprite):
         self.rect.y += self.speedy
         ## now what if the mob element goes out of the screen
  
+        ## 운석이 화면 바깥으로 나간 경우
         if (self.rect.top > HEIGHT + 10) or (self.rect.left < -25) or (self.rect.right > WIDTH + 20):
             self.rect.x = random.randrange(0, WIDTH - self.rect.width)
             self.rect.y = random.randrange(-100, -40)
@@ -365,43 +364,45 @@ class Mob(pygame.sprite.Sprite):
             background1_rect.top = -600
 
 
-## defines the sprite for Powerups
+# 파워업 아이템 기능에 대한 클래스.
 class Pow(pygame.sprite.Sprite):
     def __init__(self, center):
-        pygame.sprite.Sprite.__init__(self)
-        self.type = random.choice(['shield', 'gun'])
-        self.image = powerup_images[self.type]
-        self.image.set_colorkey(BLACK)
-        self.rect = self.image.get_rect()
-        ## place the bullet according to the current position of the player
+        pygame.sprite.Sprite.__init__(self) # pygame 내 sprite 초기화 / 추가 합니다.
+        self.type = random.choice(['shield', 'gun']) # 미사일 아이템과 쉴드 아이템을 무작위로 선택합니다.
+        self.image = powerup_images[self.type] # 해당하는 이미지 업로드
+        self.image.set_colorkey(BLACK) # 나머지 부분의 배경색을 설정힙니다.
+        self.rect = self.image.get_rect() # 이미지에 대한 위치 및 너비 높이 정보를 로드합니다.
+
+         ## 플레이어의 위치에 따라서 아이템 위치를 알맞게 조정합니다.
         self.rect.center = center
-        self.speedy = 2
+        self.speedy = 2 # 아이템이 떨어지는 속도를 살짝 줄입니다. 몹 속도에 비해서 비교적 느린 편
+
 
     def update(self):
-        """should spawn right in front of the player"""
-        self.rect.y += self.speedy
-        ## kill the sprite after it moves over the top border
+        self.rect.y += self.speedy # 플레이어와 같은 수직방향에서 스폰할 수 있도록
+        
+        # 화면 바깥으로 나간 경우 해당 아이템 소멸
         if self.rect.top > HEIGHT:
             self.kill()
 
             
 
-## defines the sprite for bullets
+# 총알에 대한 클래스.
 class Bullet(pygame.sprite.Sprite):
     def __init__(self, x, y):
-        pygame.sprite.Sprite.__init__(self)
-        self.image = bullet_img
-        self.image.set_colorkey(BLACK)
-        self.rect = self.image.get_rect()
-        ## place the bullet according to the current position of the player
+        pygame.sprite.Sprite.__init__(self) # pygame 내 sprite 초기화 / 추가 합니다.
+        self.image = bullet_img # 총알 이미지 업로드
+        self.image.set_colorkey(BLACK) # 나머지 부분의 배경색을 설정힙니다.
+        self.rect = self.image.get_rect() # 이미지에 대한 위치 및 너비 높이 정보를 로드합니다.
+        # 현재 플레이어의 위치로부터 총알이 발사될 수 있도록 위치를 지정해줍니다.
         self.rect.bottom = y 
         self.rect.centerx = x
-        self.speedy = -10
+        self.speedy = -10  
 
     def update(self):
-        """should spawn right in front of the player"""
-        self.rect.y += self.speedy
-        ## kill the sprite after it moves over the top border
+        self.rect.y += self.speedy # 플레이어가 이동된 위치에 따른 업데이트
+
+        # 화면 바깥으로 나간 경우 해당 아이템 소멸
         if self.rect.bottom < 0:
             self.kill()
 
@@ -437,6 +438,7 @@ background_rect = background.get_rect()
 background1_rect = background1.get_rect()
 ## ^^ draw this rect first 
 
+## 플레이어 이미지와 총알,미사일 이미지 로드
 player_img = pygame.image.load(path.join(img_dir, 'playerShip1_orange.png')).convert()
 player_mini_img = pygame.transform.scale(player_img, (25, 19))
 player_mini_img.set_colorkey(BLACK)
@@ -457,51 +459,55 @@ meteor_list = [
 for image in meteor_list:
     meteor_images.append(pygame.image.load(path.join(img_dir, image)).convert())
 
-## meteor explosion
-explosion_anim = {}
-explosion_anim['lg'] = []
-explosion_anim['sm'] = []
-explosion_anim['player'] = []
-for i in range(9):
-    filename = 'regularExplosion0{}.png'.format(i)
-    img = pygame.image.load(path.join(img_dir, filename)).convert()
-    img.set_colorkey(BLACK)
-    ## resize the explosion
+## 운석 폭발 애니메이션 설정. 크기에 따라 다르다
+explosion_anim = {} # 저장해 둘 딕셔너리.
+explosion_anim['lg'] = [] # lg-> 큰 운석
+explosion_anim['sm'] = [] # sm -> 작은 운석
+explosion_anim['player'] = [] # 플레이어가 폭발할 경우
+
+for i in range(9): ## 총 여덟 종류의 폭발 이미지에 대해(애니메이션화에 필요한 리소스)
+    filename = 'regularExplosion0{}.png'.format(i) # regularExplision*.png를 전부 불러들입니다.
+    img = pygame.image.load(path.join(img_dir, filename)).convert() #불러들인 이미지로 설정합니다.
+    img.set_colorkey(BLACK) # 나머지 배경색을 설정합니다.
+
+    ## lg-> 큰 운석에 대한 폭발. 변경되는 크기를 더 크게 = 더 큰 폭발 구현
     img_lg = pygame.transform.scale(img, (75, 75))
     explosion_anim['lg'].append(img_lg)
+    ## sm-> 작은 운석에 대한 폭발. lg 폭발보다 작은 구현
     img_sm = pygame.transform.scale(img, (32, 32))
     explosion_anim['sm'].append(img_sm)
 
-    ## player explosion
-    filename = 'sonicExplosion0{}.png'.format(i)
-    img = pygame.image.load(path.join(img_dir, filename)).convert()
-    img.set_colorkey(BLACK)
+    ## 플레이어가 폭발 할 경우
+    filename = 'sonicExplosion0{}.png'.format(i) # 운석 폭발과는 다른 이미지 sonicExplosion*.png를 전부 불러들입니다.
+    img = pygame.image.load(path.join(img_dir, filename)).convert() #불러들인 이미지로 설정합니다.
+    img.set_colorkey(BLACK) # 나머지 배경색을 설정합니다.
     explosion_anim['player'].append(img)
 
-## load power ups
-powerup_images = {}
-powerup_images['shield'] = pygame.image.load(path.join(img_dir, 'shield_gold.png')).convert()
-powerup_images['gun'] = pygame.image.load(path.join(img_dir, 'bolt_gold.png')).convert()
+## 파워업 이미지 로드
+powerup_images = {} # 파워업 이미지를 저장해둘 공간.
+powerup_images['shield'] = pygame.image.load(path.join(img_dir, 'shield_gold.png')).convert() # 쉴드 아이템 이미지 로드
+powerup_images['gun'] = pygame.image.load(path.join(img_dir, 'bolt_gold.png')).convert() # 총알 아이템 이미지 로드
 
 
 ###################################################
 
 
 ###################################################
-### Load all game sounds
-shooting_sound = pygame.mixer.Sound(path.join(sound_folder, 'pew.wav'))
-missile_sound = pygame.mixer.Sound(path.join(sound_folder, 'rocket.ogg'))
+## 브금 불러오기
+shooting_sound = pygame.mixer.Sound(path.join(sound_folder, 'pew.wav')) # 발사 소리
+missile_sound = pygame.mixer.Sound(path.join(sound_folder, 'rocket.ogg')) # 미사일 소리
+
 expl_sounds = []
 for sound in ['expl3.wav', 'expl6.wav']:
     expl_sounds.append(pygame.mixer.Sound(path.join(sound_folder, sound)))
 ## main background music
 #pygame.mixer.music.load(path.join(sound_folder, 'tgfcoder-FrozenJam-SeamlessLoop.ogg'))
-pygame.mixer.music.set_volume(0.2)      ## simmered the sound down a little
+pygame.mixer.music.set_volume(0.2)      # 음약 음량 조
 
-player_die_sound = pygame.mixer.Sound(path.join(sound_folder, 'rumble1.ogg'))
+player_die_sound = pygame.mixer.Sound(path.join(sound_folder, 'rumble1.ogg')) #플레이어가 죽을 때 나는 소
 ###################################################
 
-#아래부터 내가 해야될 것
+#
 ## TODO: make the game music loop over again and again. play(loops=-1) is not working
 # Error : 
 # TypeError: play() takes no keyword arguments
