@@ -31,7 +31,13 @@ sound_folder = path.join(path.dirname(__file__), 'sounds')
 
 GENERATIONCOUNT = 10 #The rate at which we kill off datasets
 NODENUM = 20
-dataSets = [[[0 for z in range(GENERATIONCOUNT)] for y in range(NODENUM)] for x in range(NODENUM)]
+species = 0
+xnodePos = [[0 for x in range(NODENUM)] for y in range(NODENUM)]
+ynodePos = [[0 for x in range(NODENUM)] for y in range(NODENUM)]
+nodePos = list(zip(xnodePos,ynodePos))
+shootDataSet = [[[False for z in range(NODENUM)] for y in range(NODENUM)] for x in range(GENERATIONCOUNT)]
+leftDataSet = [[[False for z in range(NODENUM)] for y in range(NODENUM)] for x in range(GENERATIONCOUNT)]
+rightDataSet = [[[False for z in range(NODENUM)] for y in range(NODENUM)] for x in range(GENERATIONCOUNT)]
 neatNodes = [[0 for x in range(NODENUM)] for y in range(NODENUM)]
 WIDTH = 700
 HEIGHT = 1080
@@ -40,13 +46,19 @@ FPS = 60
 POWERUP_TIME = 5000
 BAR_LENGTH = 100
 BAR_HEIGHT = 10
+leftDataSet[0][3][6] = True
+leftDataSet[0][15][10] = True
+rightDataSet[0][14][10] = True
+rightDataSet[0][10][5] = True
+shootDataSet[0][17][6] = True
+
 
 # Define Colors
 WHITE = (255, 255, 255)
-BLACK = (0, 0, 0)
 RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
+BLACK = (0, 0, 0)
 YELLOW = (255, 255, 0)
 for x in range(0, NODENUM):
     for y in range(0, NODENUM):
@@ -103,9 +115,11 @@ def draw_neat(surf, size, x, y):
     for z in range(0, NODENUM):
         for c in range(0, NODENUM):
             pygame.draw.rect(screen, neatNodes[z][c], pygame.Rect(x + z * size, y + c * size, size, size))
+            xnodePos[z][c] = x + z * size
+            ynodePos[z][c] = y + c * size
+    nodePos = list(zip(xnodePos,ynodePos))
 
 def draw_neurons(surf,size, x, y):
-
     #Drawing Behaviour Circles
     draw_text(surf, "Left()", 15, x + 60, y - 10)
     pygame.draw.circle(screen, RED, (int(x), int(y)),size, 5)
@@ -114,7 +128,14 @@ def draw_neurons(surf,size, x, y):
     draw_text(surf, "Right()", 15, x + 60, y -130)
     pygame.draw.circle(screen, RED, (int(x), int(y) - 120),size, 5)
     #Drawing Connections
-
+    for c in range(0, NODENUM):
+        for k in range(0, NODENUM):
+            if (leftDataSet[species][c][k] == True):
+                pygame.draw.line(surf, YELLOW, (int(x), int(y)), (xnodePos[c][k], ynodePos[c][k]), 1)
+            if (rightDataSet[species][c][k] == True):
+                pygame.draw.line(surf, YELLOW, (int(x), int(y) - 60), (xnodePos[c][k], ynodePos[c][k]), 1)
+            if (shootDataSet[species][c][k] == True):
+                pygame.draw.line(surf, YELLOW, (int(x), int(y) - 120), (xnodePos[c][k], ynodePos[c][k]), 1)
 
 def draw_text(surf, text, size, x, y):
     ## selecting a cross platform font to display the score
@@ -158,6 +179,16 @@ def newmob():
     mob_element = Mob()
     all_sprites.add(mob_element)
     mobs.add(mob_element)
+
+def act():
+    for x in range(0, NODENUM):
+        for y in range(0, NODENUM):
+            if (neatNodes[x][y] == GREEN and leftDataSet[species][x][y] == True):
+                moveLeftForN(keyboard)
+            if (neatNodes[x][y] == GREEN and rightDataSet[species][x][y] == True):
+                moveRightForN(keyboard)
+            if (neatNodes[x][y] == GREEN and shootDataSet[species][x][y] == True):
+                player.shoot()
 
 class Explosion(pygame.sprite.Sprite):
     def __init__(self, center, size):
@@ -602,10 +633,11 @@ while running:
                     break;
 
     size = 10
-    draw_neurons(screen, 20, WIDTH/2 + 200, (GAMEHEIGHT + HEIGHT)/2 + 50)
     draw_neat(screen, size, WIDTH / 2 - 300, (GAMEHEIGHT + HEIGHT)/2 - 100)
+    draw_neurons(screen, 20, WIDTH/2 + 200, (GAMEHEIGHT + HEIGHT)/2 + 50)
     draw_text(screen, str(score), 18, WIDTH / 2, 10)     ## 10px down from the screen
     draw_shield_bar(screen, 5, 5, player.shield)
+    act()
 
     # Draw lives
     draw_lives(screen, WIDTH - 100, 5, player.lives, player_mini_img)
