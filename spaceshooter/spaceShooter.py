@@ -30,28 +30,28 @@ sound_folder = path.join(path.dirname(__file__), 'sounds')
 ## to be placed in "constant.py" later
 
 GENERATIONCOUNT = 10 #The rate at which we kill off datasets
+prevFitness = 0
+genCount = 0
+alphaScore = 0
 NODENUM = 20
+datOffSet = 0 #This will move with the player to insure learning based on the position of the player
 species = 0
-xnodePos = [[0 for x in range(NODENUM)] for y in range(NODENUM)]
-ynodePos = [[0 for x in range(NODENUM)] for y in range(NODENUM)]
+xnodePos = [[0 for x in range(NODENUM)] for y in range(NODENUM*3)]
+ynodePos = [[0 for x in range(NODENUM)] for y in range(NODENUM*3)]
 nodePos = list(zip(xnodePos,ynodePos))
-shootDataSet = [[[False for z in range(NODENUM)] for y in range(NODENUM)] for x in range(GENERATIONCOUNT)]
-leftDataSet = [[[False for z in range(NODENUM)] for y in range(NODENUM)] for x in range(GENERATIONCOUNT)]
-rightDataSet = [[[False for z in range(NODENUM)] for y in range(NODENUM)] for x in range(GENERATIONCOUNT)]
-neatNodes = [[0 for x in range(NODENUM)] for y in range(NODENUM)]
-WIDTH = 700
+shootDataSet = [[[False for z in range(NODENUM)] for y in range(NODENUM*3)] for x in range(GENERATIONCOUNT)]
+leftDataSet = [[[False for z in range(NODENUM)] for y in range(NODENUM*3)] for x in range(GENERATIONCOUNT)]
+rightDataSet = [[[False for z in range(NODENUM)] for y in range(NODENUM*3)] for x in range(GENERATIONCOUNT)]
+alphaDataSet = [[[False for z in range(NODENUM)] for y in range(NODENUM*3)] for x in range(3)]
+prevAlphaDataSet = [[[False for z in range(NODENUM)] for y in range(NODENUM*3)] for x in range(3)]
+neatNodes = [[0 for x in range(NODENUM)] for y in range(NODENUM*3)]
+WIDTH = 600
 HEIGHT = 1080
-GAMEHEIGHT = 700
+GAMEHEIGHT = 600
 FPS = 60
 POWERUP_TIME = 5000
 BAR_LENGTH = 100
 BAR_HEIGHT = 10
-leftDataSet[0][3][6] = True
-leftDataSet[0][15][10] = True
-rightDataSet[0][14][10] = True
-rightDataSet[0][10][5] = True
-shootDataSet[0][17][6] = True
-
 
 # Define Colors
 WHITE = (255, 255, 255)
@@ -66,6 +66,7 @@ for x in range(0, NODENUM):
             neatNodes[x][y] = GREEN
         else:
             neatNodes[x][y] = BLUE
+
 ###############################
 
 ###############################
@@ -112,7 +113,7 @@ def main_menu():
     pygame.display.update()
 
 def draw_neat(surf, size, x, y):
-    for z in range(0, NODENUM):
+    for z in range(NODENUM, NODENUM*2):
         for c in range(0, NODENUM):
             pygame.draw.rect(screen, neatNodes[z][c], pygame.Rect(x + z * size, y + c * size, size, size))
             xnodePos[z][c] = x + z * size
@@ -127,15 +128,47 @@ def draw_neurons(surf,size, x, y):
     pygame.draw.circle(screen, RED, (int(x), int(y) - 60),size, 5)
     draw_text(surf, "Right()", 15, x + 60, y -130)
     pygame.draw.circle(screen, RED, (int(x), int(y) - 120),size, 5)
+
+    draw_text(screen, "Previous Fitness", 15, WIDTH/2, HEIGHT/2 +120)
+    draw_text(screen, str(prevFitness), 15, WIDTH/2, HEIGHT/2 +150)
+
+    draw_text(screen, "Fitness", 15, WIDTH/2 + 100, HEIGHT/2 +120)
+    draw_text(screen, str(score), 15, WIDTH/2 + 100, HEIGHT/2 +150)
+
+    draw_text(screen, "Species", 15, WIDTH/2 - 100, HEIGHT/2 +120)
+    draw_text(screen, str(species), 15, WIDTH/2 - 100, HEIGHT/2 +150)
+
+    draw_text(screen, "Alpha", 15, WIDTH/2 + 200, HEIGHT/2 +120)
+    draw_text(screen, str(alphaScore), 15, WIDTH/2 + 200, HEIGHT/2 +150)
+
+    draw_text(screen, "Gen", 15, WIDTH/2 - 200, HEIGHT/2 +120)
+    draw_text(screen, str(genCount + 1), 15, WIDTH/2 - 200, HEIGHT/2 +150)
+
+    #Drawing Combinations
+    pygame.draw.circle(screen, RED, (int(x) - 50, int(y) - 30),int(size/1.5), 5)
+    pygame.draw.circle(screen, RED, (int(x) - 50, int(y) - 90),int(size/1.5), 5)
+    #Drawing Final Combination
+    pygame.draw.circle(screen, RED, (int(x) - 90, int(y) - 60),int(size/2), 5)
     #Drawing Connections
-    for c in range(0, NODENUM):
+    for c in range(NODENUM - datOffSet, NODENUM * 2 - datOffSet):
         for k in range(0, NODENUM):
-            if (leftDataSet[species][c][k] == True):
-                pygame.draw.line(surf, YELLOW, (int(x), int(y)), (xnodePos[c][k], ynodePos[c][k]), 1)
-            if (rightDataSet[species][c][k] == True):
-                pygame.draw.line(surf, YELLOW, (int(x), int(y) - 60), (xnodePos[c][k], ynodePos[c][k]), 1)
-            if (shootDataSet[species][c][k] == True):
-                pygame.draw.line(surf, YELLOW, (int(x), int(y) - 120), (xnodePos[c][k], ynodePos[c][k]), 1)
+            if(leftDataSet[species][c][k] and rightDataSet[species][c][k]):
+                pygame.draw.line(surf, YELLOW, (int(x), int(y)), (int(x) - 50, int(y) - 30), 1)
+                pygame.draw.line(surf, YELLOW, (int(x), int(y) - 120), (int(x) - 50, int(y) - 30), 1)
+                pygame.draw.line(surf, YELLOW, (int(x), int(y)), (int(x) - 50, int(y) - 90), 1)
+                pygame.draw.line(surf, YELLOW, (int(x), int(y) - 120), (int(x) - 50, int(y) - 90), 1)
+                pygame.draw.line(surf, YELLOW, (int(x) - 50, int(y) - 30), (xnodePos[c+datOffSet][k], ynodePos[c+datOffSet][k]), 1)
+                pygame.draw.line(surf, YELLOW, (int(x) - 50, int(y) - 90), (xnodePos[c+datOffSet][k], ynodePos[c+datOffSet][k]), 1)
+            #elif(leftDataSet[species][c][k] and shootDataSet[species][c][k]):
+
+
+            else:
+                if (leftDataSet[species][c][k] == True):
+                    pygame.draw.line(surf, YELLOW, (int(x), int(y)), (xnodePos[c+datOffSet][k], ynodePos[c+datOffSet][k]), 1)
+                if (shootDataSet[species][c][k] == True):
+                    pygame.draw.line(surf, YELLOW, (int(x), int(y) - 60), (xnodePos[c+datOffSet][k], ynodePos[c+datOffSet][k]), 1)
+                if (rightDataSet[species][c][k] == True):
+                    pygame.draw.line(surf, YELLOW, (int(x), int(y) - 120), (xnodePos[c+datOffSet][k], ynodePos[c+datOffSet][k]), 1)
 
 def draw_text(surf, text, size, x, y):
     ## selecting a cross platform font to display the score
@@ -167,11 +200,43 @@ def draw_lives(surf, x, y, lives, img):
         img_rect.y = y
         surf.blit(img, img_rect)
 
+def checkAlpha():
+    if (score > prevFitness):
+        alphaScore = score
+        print(alphaScore)
+        for x in range(NODENUM, NODENUM * 2):
+            for y in range(0, NODENUM):
+                alphaDataSet[0][x][y] = leftDataSet[species][x][y]
+                alphaDataSet[1][x][y] = rightDataSet[species][x][y]
+                alphaDataSet[2][x][y] = shootDataSet[species][x][y]
+
+def breedAlpha():
+    offspring = [[[False for z in range(NODENUM)] for y in range(NODENUM*3)] for x in range(3)]
+    for x in range(NODENUM, NODENUM * 2):
+        for y in range(0, NODENUM):
+            if (alphaDataSet[0][x][y] and y % 2 == 0):
+                offspring[0][x][y] = True
+            if (alphaDataSet[1][x][y] and y % 2 == 0):
+                offspring[1][x][y] = True
+            if (alphaDataSet[2][x][y] and y % 2 == 0):
+                offspring[2][x][y] = True
+            if (prevAlphaDataSet[0][x][y] and y % 2 != 0):
+                offspring[0][x][y] = True
+            if (prevAlphaDataSet[1][x][y] and y % 2 != 0):
+                offspring[1][x][y] = True
+            if (prevAlphaDataSet[2][x][y] and y % 2 != 0):
+                offspring[2][x][y] = True
+    leftDataSet[0] = offspring[0]
+    shootDataSet[0] = offspring[1]
+    rightDataSet[0] = offspring[2]
+
+
+
 def moveLeftForN(keyboard):
     keyboard.press_key("Left")
     keyboard.release_key("Left")
 
-def moveLeftForN(keyboard):
+def moveRightForN(keyboard):
     keyboard.press_key("Right")
     keyboard.release_key("Right")
 
@@ -181,13 +246,13 @@ def newmob():
     mobs.add(mob_element)
 
 def act():
-    for x in range(0, NODENUM):
+    for x in range(NODENUM, NODENUM * 2):
         for y in range(0, NODENUM):
-            if (neatNodes[x][y] == GREEN and leftDataSet[species][x][y] == True):
+            if (neatNodes[x+datOffSet][y] == GREEN and leftDataSet[species][x+datOffSet][y] == True):
                 moveLeftForN(keyboard)
-            if (neatNodes[x][y] == GREEN and rightDataSet[species][x][y] == True):
+            if (neatNodes[x+datOffSet][y] == GREEN and rightDataSet[species][x+datOffSet][y] == True):
                 moveRightForN(keyboard)
-            if (neatNodes[x][y] == GREEN and shootDataSet[species][x][y] == True):
+            if (neatNodes[x+datOffSet][y] == GREEN and shootDataSet[species][x+datOffSet][y] == True):
                 player.shoot()
 
 class Explosion(pygame.sprite.Sprite):
@@ -224,7 +289,7 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.radius = 20
         self.rect.centerx = WIDTH / 2
-        self.rect.bottom = GAMEHEIGHT - 120
+        self.rect.bottom = GAMEHEIGHT - 40
         self.speedx = 0
         self.shield = 100
         self.shoot_delay = 250
@@ -271,9 +336,9 @@ class Player(pygame.sprite.Sprite):
         self.rect.x += self.speedx
 
     def moveRight(self):
-        self.speedx += 5
+        self.speedx += 10
     def moveLeft(self):
-        self.speedx += -5
+        self.speedx += -10
 
     def shoot(self):
         ## to tell the bullet where to spawn
@@ -329,7 +394,7 @@ class Mob(pygame.sprite.Sprite):
         self.radius = int(self.rect.width *.90 / 2)
         self.rect.x = random.randrange(0, WIDTH - self.rect.width)
         self.rect.y = random.randrange(-150, -100)
-        self.speedy = random.randrange(5, 50)        ## for randomizing the speed of the Mob, INCREASED METEOR SPEED
+        self.speedy = random.randrange(20, 30)        ## for randomizing the speed of the Mob, INCREASED METEOR SPEED
 
         ## randomize the movements a little more
         self.speedx = random.randrange(-3, 3)
@@ -581,7 +646,7 @@ while running:
     ## check if the player collides with the mob
     hits = pygame.sprite.spritecollide(player, mobs, True, pygame.sprite.collide_circle)        ## gives back a list, True makes the mob element disappear
     for hit in hits:
-        player.shield -= hit.radius * 2
+        player.shield = 0#hit.radius * 2
         expl = Explosion(hit.rect.center, 'sm')
         all_sprites.add(expl)
         newmob()
@@ -605,11 +670,31 @@ while running:
             player.powerup()
 
     ## if player died and the explosion has finished, end game
-    if player.lives == 0 and not death_explosion.alive():
+    if player.lives == 0:
+        checkAlpha()
+        prevFitness = score
         score = 0
+        if (species >= GENERATIONCOUNT - 1):
+            genCount += 1
+            species = 0
+            alphaScore = 0
+            breedAlpha()
+            prevAlphaDataSet = alphaDataSet
+        species += 1
+        player.lives +=1
+        try:
+            leftDataSet[species][random.randint(NODENUM+1,NODENUM*3)][random.randint(0, NODENUM)] = True
+            leftDataSet[species][random.randint(NODENUM+1,NODENUM*3)][random.randint(0, NODENUM)] = False
+            rightDataSet[species][random.randint(NODENUM+1,NODENUM*3)][random.randint(0, NODENUM)] = True
+            rightDataSet[species][random.randint(NODENUM+1,NODENUM*3)][random.randint(0, NODENUM)] = False
+            shootDataSet[species][random.randint(NODENUM+1,NODENUM*3)][random.randint(0, NODENUM)] = True
+            shootDataSet[species][random.randint(NODENUM+1,NODENUM*3)][random.randint(0, NODENUM)] = False
+        except: IndexError
         #running = False
         # menu_display = True
-        #pygame.display.update()
+        pygame.display.update()
+        if (prevFitness == 0):
+            moveRightForN(keyboard)
 
     #3 Draw/render
     screen.fill(BLACK)
@@ -618,14 +703,15 @@ while running:
 
     all_sprites.draw(screen)
 
-    for x in range(NODENUM):
+    for x in range(NODENUM, NODENUM*2):
         for y in range(NODENUM):
-            if (player.rect.center[0] > WIDTH/NODENUM * x and player.rect.center[0] < WIDTH/NODENUM * (x+1)):
+            if (player.rect.center[0] > WIDTH/NODENUM * (x - NODENUM) and player.rect.center[0] < WIDTH/NODENUM * ((x -NODENUM)+1)): #if player collides with a hitbox
                 neatNodes[x][NODENUM-1] = RED
+                datOffSet= x - NODENUM * 2
             else:
                 neatNodes[x][NODENUM-1] = BLUE
             for z in range(len(mobs.sprites())):
-                if (mobs.sprites()[z].rect.center[0] > WIDTH/NODENUM * x and mobs.sprites()[z].rect.center[0] < WIDTH/NODENUM * (x+1) and mobs.sprites()[z].rect.center[1] > WIDTH/NODENUM * (y-1) and mobs.sprites()[z].rect.center[1] < WIDTH/NODENUM * y):
+                if (mobs.sprites()[z].rect.center[0] > WIDTH/NODENUM * (x - NODENUM) and mobs.sprites()[z].rect.center[0] < WIDTH/NODENUM * ((x -NODENUM)+1) and mobs.sprites()[z].rect.center[1] > WIDTH/NODENUM * (y-1) and mobs.sprites()[z].rect.center[1] < WIDTH/NODENUM * y):
                     neatNodes[x][y] = GREEN
                 elif(neatNodes[x][y] != RED):
                     neatNodes[x][y] = BLUE
@@ -633,7 +719,7 @@ while running:
                     break;
 
     size = 10
-    draw_neat(screen, size, WIDTH / 2 - 300, (GAMEHEIGHT + HEIGHT)/2 - 100)
+    draw_neat(screen, size, WIDTH / 2 - 500, (GAMEHEIGHT + HEIGHT)/2 - 100)
     draw_neurons(screen, 20, WIDTH/2 + 200, (GAMEHEIGHT + HEIGHT)/2 + 50)
     draw_text(screen, str(score), 18, WIDTH / 2, 10)     ## 10px down from the screen
     draw_shield_bar(screen, 5, 5, player.shield)
