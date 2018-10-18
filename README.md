@@ -10,7 +10,6 @@ The classic retro game recreated using `Pygame` and `python`.
 
 - [Demo](https://github.com/tasdikrahman/spaceShooter#demo)
   - [Screenshots](https://github.com/tasdikrahman/spaceShooter#screenshots)
-  - [Extended Work](https://github.com/tasdikrahman/spaceShooter#extendedwork)
 - [Game Features](https://github.com/tasdikrahman/spaceShooter#game-features)
   - [Controls](https://github.com/tasdikrahman/spaceShooter#controls)
 - [Installation](https://github.com/tasdikrahman/spaceShooter#installation)
@@ -42,21 +41,6 @@ Follow the youtube video to see how I fared on ``spaceShooter``
 | ![Screen 1](http://i.imgur.com/3MzfmbT.jpg) | ![Screen 2](http://i.imgur.com/4OgIByR.png) |
 |---------------------------------------------|---------------------------------------------|
 | ![Screen 3](http://i.imgur.com/PFQJjE8.png) | ![Screen 4](http://i.imgur.com/lV4aIur.png) |
-
-## Extended Work
-
-[[Back to top]](https://github.com/tasdikrahman/spaceShooter#index)
-
-A NEAT (Neuroevolution of Augmenting Topologies) Neural Network by William Ambrozic for Space Shooter
-
-[![Space Shooter AI - Youtube](https://i.imgur.com/qSlfNMU.png)](https://www.youtube.com/watch?v=sReJJ8EcmIw&t=3s)
-
-[NEAT Neural Network for Space Shooter GitHub Repo](https://github.com/WilliamAmbrozic/spaceShooter)
-
-William Ambrozic:
-  - [Instagram](https://www.instagram.com/williamambrozic/)
-  - [GitHub](https://github.com/WilliamAmbrozic)
-  - [Youtube](https://www.youtube.com/channel/UCL-VushY6SO0ofPTZ8iB3ag?)
 
 ## Game Features
 
