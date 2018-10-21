@@ -10,7 +10,7 @@ The classic retro game recreated using `Pygame` and `python`.
 
 - [Demo](https://github.com/tasdikrahman/spaceShooter#demo)
   - [Screenshots](https://github.com/tasdikrahman/spaceShooter#screenshots)
-- [Extended Work](https://github.com/tasdikrahman/spaceShooter#extendedwork)
+- [Extended Work](https://github.com/tasdikrahman/spaceShooter#extended-work)
 - [Game Features](https://github.com/tasdikrahman/spaceShooter#game-features)
   - [Controls](https://github.com/tasdikrahman/spaceShooter#controls)
 - [Installation](https://github.com/tasdikrahman/spaceShooter#installation)
