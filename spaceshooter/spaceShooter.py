@@ -494,7 +494,7 @@ while running:
     ## now as we delete the mob element when we hit one with a bullet, we need to respawn them again
     ## as there will be no mob_elements left out 
     for hit in hits:
-        score += 50 - hit.radius         ## give different scores for hitting big and small metoers
+        score += 50 - hit.radius -int(score/3000 )       ## give different scores for hitting big and small metoers
         random.choice(expl_sounds).play()
         # m = Mob()
         # all_sprites.add(m)
@@ -505,7 +505,8 @@ while running:
             pow = Pow(hit.rect.center)
             all_sprites.add(pow)
             powerups.add(pow)
-        newmob()        ## spawn a new mob
+        for m in range(int(1+score/3000)):
+            newmob()        ## spawn a new mob
 
     ## ^^ the above loop will create the amount of mob objects which were killed spawn again
     #########################
