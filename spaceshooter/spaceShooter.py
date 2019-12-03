@@ -162,7 +162,8 @@ class Player(pygame.sprite.Sprite):
         self.radius = 20
         self.rect.centerx = WIDTH / 2
         self.rect.bottom = HEIGHT - 10
-        self.speedx = 0 
+        self.speedx = 0
+        self.speedy = 0
         self.shield = 100
         self.shoot_delay = 250
         self.last_shot = pygame.time.get_ticks()
@@ -170,13 +171,16 @@ class Player(pygame.sprite.Sprite):
         self.hidden = False
         self.hide_timer = pygame.time.get_ticks()
         self.power = 1
-        self.power_timer = pygame.time.get_ticks()
+ #       self.power_timer = pygame.time.get_ticks()
+        self.power_count = 30
 
     def update(self):
         ## time out for powerups
-        if self.power >=2 and pygame.time.get_ticks() - self.power_time > POWERUP_TIME:
-            self.power -= 1
-            self.power_time = pygame.time.get_ticks()
+#        if self.power >=2 and pygame.time.get_ticks() - self.power_time > POWERUP_TIME:
+        if self.power >=2 and self.power_count == 0:
+            self.power = 1
+            self.power_count = 30
+#            self.power_time = pygame.time.get_ticks()
 
         ## unhide 
         if self.hidden and pygame.time.get_ticks() - self.hide_timer > 1000:
@@ -186,7 +190,8 @@ class Player(pygame.sprite.Sprite):
 
         self.speedx = 0     ## makes the player static in the screen by default. 
         # then we have to check whether there is an event hanlding being done for the arrow keys being 
-        ## pressed 
+        ## pressed
+        self.speedy = 0
 
         ## will give back a list of the keys which happen to be pressed down at that moment
         keystate = pygame.key.get_pressed()     
@@ -194,6 +199,10 @@ class Player(pygame.sprite.Sprite):
             self.speedx = -5
         elif keystate[pygame.K_RIGHT]:
             self.speedx = 5
+        elif keystate[pygame.K_UP]: #화살표 위 클릭시 y 좌표 -5
+            self.speedy = -5
+        elif keystate[pygame.K_DOWN]: #화살표 아래 클릭시 y 좌표 5
+            self.speedy = +5
 
         #Fire weapons by holding spacebar
         if keystate[pygame.K_SPACE]:
@@ -204,8 +213,12 @@ class Player(pygame.sprite.Sprite):
             self.rect.right = WIDTH
         if self.rect.left < 0:
             self.rect.left = 0
+            
+        if self.rect.bottom > HEIGHT-10: #바닥 제한 설정
+            self.rect.bottom = HEIGHT-10
 
         self.rect.x += self.speedx
+        self.rect.y += self.speedy
 
     def shoot(self):
         ## to tell the bullet where to spawn
@@ -225,6 +238,7 @@ class Player(pygame.sprite.Sprite):
                 bullets.add(bullet1)
                 bullets.add(bullet2)
                 shooting_sound.play()
+                self.power_count -= 1 #파워 2이상일때 총알 카운트
 
             """ MOAR POWAH """
             if self.power >= 3:
@@ -239,15 +253,19 @@ class Player(pygame.sprite.Sprite):
                 bullets.add(missile1)
                 shooting_sound.play()
                 missile_sound.play()
+                self.power_count -= 1 #파워 2이상일때 총알 카운트
 
     def powerup(self):
         self.power += 1
-        self.power_time = pygame.time.get_ticks()
+#        self.power_time = pygame.time.get_ticks()
+        self.power_count = 30
 
     def hide(self):
         self.hidden = True
         self.hide_timer = pygame.time.get_ticks()
         self.rect.center = (WIDTH / 2, HEIGHT + 200)
+        self.power = 1              #죽었을 때 파워 초기화
+        self.power_count = 30       #죽었을 때 파워 카운트 초기
 
 
 # defines the enemies
