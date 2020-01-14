@@ -1,0 +1,6 @@
+## initialize pygame and create window
+pygame.init()
+pygame.mixer.init()  ## For sound
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("Space Shooter")
+clock = pygame.time.Clock()     ## For syncing the FPS
