@@ -79,6 +79,11 @@ Follow the youtube video to see how I fared on ``spaceShooter``
 - Run the executable named `spaceShooter` inside the extracted file.
 
 ### `Linux/Debian` based systems
+#### System Requirments
+  unzip
+  ```bash
+$ sudo apt-get install unzip
+```
 
 #### Option 1: Download the zipped executable file
 
@@ -101,18 +106,19 @@ This will unzip the file on your `Desktop`, you can replace it with the director
 
 **NOTE** : If it gives you an error, you probably don't have `unzip` installed in your system.
 
-```bash
-$ sudo apt-get install unzip
-```
-That should fix the error.
 
 - Run the executable named `spaceShooter`
 
-A Similar process would be followed for `OS X`
+A Similar process would be followed for `MacOS`
 
 #### Option 2: Build from source
 
 You need to have `pygame` installed for this option. 
+
+### Using `PyPy`
+```bash
+pip3 install pygame
+```
 
 ### For `FreeBSD`
 
@@ -143,10 +149,10 @@ $ cd spaceShooter/
 $ python spaceShooter.py
 ```
 
-### For `MAC OS X` 
+### For `MacOS` 
 
-You have to build from source to get it up and running on `OS X`. Reason?
-I don't have an `OS X` system to build the executable! So I would love for a Pull request on that one.
+You have to build from source to get it up and running on `MacOS`. Reason?
+I don't have an `MacOS` system to build the executable! So I would love for a Pull request on that one.
 
 Building from source will do the trick though
 
