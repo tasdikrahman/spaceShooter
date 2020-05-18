@@ -22,6 +22,7 @@ The classic retro game recreated using `Pygame` and `python`.
   - [Contributers](https://github.com/tasdikrahman/spaceShooter#contributers)
   - [To-do](https://github.com/tasdikrahman/spaceShooter#to-do)
 - [Issues](https://github.com/tasdikrahman/spaceShooter#issues)
+- [Credits](https://github.com/tasdikrahman/spaceShooter#credits)
 - [Similar](https://github.com/tasdikrahman/spaceShooter#similar)
 - [License](https://github.com/tasdikrahman/spaceShooter#license)
 - [Donation](https://github.com/tasdikrahman/spaceShooter#donation)
@@ -206,6 +207,10 @@ You can report the bugs at the [issue tracker](https://github.com/tasdikrahman/s
 **OR**
 
 You can [tweet me](https://twitter.com/tasdikrahman) if you can't get it to work. In fact, you should tweet me anyway.
+
+## Credits
+
+The game is a fork of the video instructions given by KidsCanCode. I have made several additional enhancements to it. Do check out their [Channel](https://www.youtube.com/channel/UCNaPQ5uLX5iIEHUCLmfAgKg)!
 
 ## Similar
 
