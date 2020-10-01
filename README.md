@@ -1,4 +1,4 @@
-## Space Shooter
+## Space Shooter-A fun time adventure
 
 The classic retro game recreated using `Pygame` and `python`.
 
@@ -57,7 +57,7 @@ Follow the youtube video to see how I fared on ``spaceShooter``
   - bullet shoots
   - player explosion
 - 3 lives per game
-- Fun to play :)
+- Fun to play :-)
 
 ## Controls
 
