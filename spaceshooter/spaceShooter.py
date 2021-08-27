@@ -435,126 +435,150 @@ player_die_sound = pygame.mixer.Sound(path.join(sound_folder, 'rumble1.ogg'))
 ## Game loop
 running = True
 menu_display = True
+paused = False
+reset = False
+highscore = 0
 while running:
     if menu_display:
         main_menu()
         pygame.time.wait(3000)
 
-        #Stop menu music
-        pygame.mixer.music.stop()
-        #Play the gameplay music
-        pygame.mixer.music.load(path.join(sound_folder, 'tgfcoder-FrozenJam-SeamlessLoop.ogg'))
-        pygame.mixer.music.play(-1)     ## makes the gameplay sound in an endless loop
-        
         menu_display = False
-        
-        ## group all the sprites together for ease of update
+
+        # group all the sprites together for ease of update
         all_sprites = pygame.sprite.Group()
         player = Player()
         all_sprites.add(player)
 
-        ## spawn a group of mob
+        # spawn a group of mob
         mobs = pygame.sprite.Group()
-        for i in range(8):      ## 8 mobs
-            # mob_element = Mob()
-            # all_sprites.add(mob_element)
-            # mobs.add(mob_element)
+        for i in range(8):
             newmob()
 
-        ## group for bullets
+        # group for bullets
         bullets = pygame.sprite.Group()
         powerups = pygame.sprite.Group()
 
-        #### Score board variable
+        # Score board variable
         score = 0
-        
-    #1 Process input/events
-    clock.tick(FPS)     ## will make the loop run at the same speed all the time
-    for event in pygame.event.get():        # gets all the events which have occured till now and keeps tab of them.
-        ## listening for the the X button at the top
+
+    # 1 Process input/events
+    clock.tick(FPS)
+    for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
 
-        ## Press ESC to exit game
+        # Press ESC to exit game
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 running = False
-        # ## event for shooting the bullets
-        # elif event.type == pygame.KEYDOWN:
-        #     if event.key == pygame.K_SPACE:
-        #         player.shoot()      ## we have to define the shoot()  function
+            elif event.key == pygame.K_p:
+                paused = not paused
+    if paused == True:
+        draw_rect_alpha(screen, (0, 0, 0, 127), (0, 0, 800, 600))
+        draw_text(screen, "GAME PAUSED !!!", 60, WIDTH/2, (HEIGHT/2)-90)
+        draw_text(screen, "Press P to Resume", 40, WIDTH/2, HEIGHT/2)
+        draw_text(screen, "or ESC to Exit", 40, WIDTH/2, (HEIGHT/2)+40)
+        pygame.display.update()
+        continue
+    else:
+        # 2 Update
+        all_sprites.update()
 
-    #2 Update
-    all_sprites.update()
+        hits = pygame.sprite.groupcollide(mobs, bullets, True, True)
 
+        for hit in hits:
+            score += 50 - hit.radius
+            expl = Explosion(hit.rect.center, 'lg')
+            all_sprites.add(expl)
+            if random.random() > 0.9:
+                pow = Pow(hit.rect.center)
+                all_sprites.add(pow)
+                powerups.add(pow)
+            newmob()
 
-    ## check if a bullet hit a mob
-    ## now we have a group of bullets and a group of mob
-    hits = pygame.sprite.groupcollide(mobs, bullets, True, True)
-    ## now as we delete the mob element when we hit one with a bullet, we need to respawn them again
-    ## as there will be no mob_elements left out 
-    for hit in hits:
-        score += 50 - hit.radius         ## give different scores for hitting big and small metoers
-        random.choice(expl_sounds).play()
-        # m = Mob()
-        # all_sprites.add(m)
-        # mobs.add(m)
-        expl = Explosion(hit.rect.center, 'lg')
-        all_sprites.add(expl)
-        if random.random() > 0.9:
-            pow = Pow(hit.rect.center)
-            all_sprites.add(pow)
-            powerups.add(pow)
-        newmob()        ## spawn a new mob
-
-    ## ^^ the above loop will create the amount of mob objects which were killed spawn again
-    #########################
-
-    ## check if the player collides with the mob
-    hits = pygame.sprite.spritecollide(player, mobs, True, pygame.sprite.collide_circle)        ## gives back a list, True makes the mob element disappear
-    for hit in hits:
-        player.shield -= hit.radius * 2
-        expl = Explosion(hit.rect.center, 'sm')
-        all_sprites.add(expl)
-        newmob()
-        if player.shield <= 0: 
-            player_die_sound.play()
-            death_explosion = Explosion(player.rect.center, 'player')
-            all_sprites.add(death_explosion)
-            # running = False     ## GAME OVER 3:D
-            player.hide()
-            player.lives -= 1
-            player.shield = 100
-
-    ## if the player hit a power up
-    hits = pygame.sprite.spritecollide(player, powerups, True)
-    for hit in hits:
-        if hit.type == 'shield':
-            player.shield += random.randrange(10, 30)
-            if player.shield >= 100:
+        # check if the player collides with the mob
+        hits = pygame.sprite.spritecollide(
+            player, mobs, True, pygame.sprite.collide_circle)
+        for hit in hits:
+            player.shield -= hit.radius * 2
+            expl = Explosion(hit.rect.center, 'sm')
+            all_sprites.add(expl)
+            newmob()
+            if player.shield <= 0:
+                death_explosion = Explosion(player.rect.center, 'player')
+                all_sprites.add(death_explosion)
+                player.hide()
+                player.lives -= 1
                 player.shield = 100
-        if hit.type == 'gun':
-            player.powerup()
 
-    ## if player died and the explosion has finished, end game
-    if player.lives == 0 and not death_explosion.alive():
-        running = False
-        # menu_display = True
-        # pygame.display.update()
+        # if the player hit a power up
+        hits = pygame.sprite.spritecollide(player, powerups, True)
+        for hit in hits:
+            if hit.type == 'shield':
+                player.shield += random.randrange(10, 30)
+                if player.shield >= 100:
+                    player.shield = 100
+            if hit.type == 'gun':
+                player.powerup()
 
-    #3 Draw/render
-    screen.fill(BLACK)
-    ## draw the stargaze.png image
-    screen.blit(background, background_rect)
+        if player.lives == 0 and not death_explosion.alive():
+            # running = False
+            # menu_display = True
+            screen.fill(BLACK)
+            screen.blit(background, background_rect)
+            pygame.display.update()
+            while True:
+                ev = pygame.event.poll()
+                if ev.type == pygame.KEYDOWN:
+                    if ev.key == pygame.K_RETURN:
+                        break
+                    elif ev.key == pygame.K_ESCAPE:
+                        break
+                    elif ev.key == pygame.K_r:
+                        reset = True
+                        player.lives = 5
+                        player.shield = 100
+                        score = 0
+                        break
+                elif ev.type == pygame.QUIT:
+                    break
+                else:
 
-    all_sprites.draw(screen)
-    draw_text(screen, str(score), 18, WIDTH / 2, 10)     ## 10px down from the screen
-    draw_shield_bar(screen, 5, 5, player.shield)
+                    draw_text(screen, "GAME OVER!", 80,
+                              WIDTH/2, (HEIGHT/2)-110)
+                    if(score >= highscore):
+                        highscore = score
+                        draw_text(
+                            screen, f"New High Score - {score}", 50, WIDTH/2, (HEIGHT/2)-30)
+                    else:
+                        draw_text(
+                            screen, f"Your Score is {score}", 50, WIDTH/2, (HEIGHT/2)-30)
+                    draw_text(screen, "Press R to Restart",
+                              30, WIDTH/2, HEIGHT/2+40)
+                    draw_text(screen, "or ESC to Exit",
+                              30, WIDTH/2, (HEIGHT/2)+70)
+                    pygame.display.update()
+            if reset == False:
+                break
+            else:
+                reset = False
+                continue
 
-    # Draw lives
-    draw_lives(screen, WIDTH - 100, 5, player.lives, player_mini_img)
+        # 3 Draw/render
+        screen.fill(BLACK)
+        # draw the stargaze.png image
+        screen.blit(background, background_rect)
 
-    ## Done after drawing everything to the screen
-    pygame.display.flip()       
+        all_sprites.draw(screen)
+        draw_text(screen, str(score), 18, WIDTH / 2, 10)
+        draw_shield_bar(screen, 5, 5, player.shield)
+
+        # Draw lives
+        draw_lives(screen, WIDTH - 180, 5, player.lives, player_mini_img)
+
+        # Done after drawing everything to the screen
+        pygame.display.flip()
 
 pygame.quit()
+
