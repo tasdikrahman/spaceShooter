@@ -52,6 +52,9 @@ pygame.display.set_caption("Space Shooter")
 clock = pygame.time.Clock()     ## For syncing the FPS
 ###############################
 
+# fonts folder
+endFont = pygame.font.Font("./fonts/Gobold-Regular.otf", 72)
+scoreFont = pygame.font.Font("./fonts/Gobold-Regular.otf", 36)
 font_name = pygame.font.match_font('arial')
 
 def main_menu():
@@ -88,7 +91,51 @@ def main_menu():
     screen.fill(BLACK)
     draw_text(screen, "GET READY!", 40, WIDTH/2, HEIGHT/2)
     pygame.display.update()
-    
+
+
+def end_screen():
+    global screen
+    global endFont
+    global scoreFont
+    global end_display
+    global menu_display
+    global score
+
+    background = pygame.image.load(
+        path.join(img_dir, "starfield.png")).convert()
+    background = pygame.transform.scale(background, (WIDTH, HEIGHT), screen)
+
+    screen.blit(background, (0, 0))
+
+    # End screen title
+    title = endFont.render("YOU DIED", True, (255, 250, 250))
+    screen.blit(title, (100, 50))  # x, y
+
+    # End screen score
+    scores = scoreFont.render(f"LAST SCORE: {score}", True, (255, 250, 250))
+    screen.blit(scores, (130, 220))  # x, y
+
+    pygame.display.update()
+
+    while end_display:
+        ev = pygame.event.poll()
+        if ev.type == pygame.KEYDOWN:
+            if ev.key == pygame.K_RETURN:
+                end_display = False
+                menu_display = True
+                break
+            elif ev.key == pygame.K_q:
+                pygame.quit()
+                quit()
+        elif ev.type == pygame.QUIT:
+            pygame.quit()
+            quit()
+        else:
+            draw_text(screen, "[Enter] Back to main menu",
+                      30, WIDTH/2, HEIGHT/2)
+            draw_text(screen, "or [Q] To Quit", 30, WIDTH/2, (HEIGHT/2)+40)
+            pygame.display.update()
+
 
 def draw_text(surf, text, size, x, y):
     ## selecting a cross platform font to display the score
@@ -447,8 +494,9 @@ while running:
         pygame.mixer.music.play(-1)     ## makes the gameplay sound in an endless loop
         
         menu_display = False
-        
-        ## group all the sprites together for ease of update
+        end_display = False
+
+        # group all the sprites together for ease of update
         all_sprites = pygame.sprite.Group()
         player = Player()
         all_sprites.add(player)
@@ -467,11 +515,16 @@ while running:
 
         #### Score board variable
         score = 0
-        
-    #1 Process input/events
-    clock.tick(FPS)     ## will make the loop run at the same speed all the time
-    for event in pygame.event.get():        # gets all the events which have occured till now and keeps tab of them.
-        ## listening for the the X button at the top
+
+    if end_display:
+        end_screen()
+        # When end_display is true blits end screen
+
+    # 1 Process input/events
+    clock.tick(FPS)  # will make the loop run at the same speed all the time
+    # gets all the events which have occured till now and keeps tab of them.
+    for event in pygame.event.get():
+        # listening for the the X button at the top
         if event.type == pygame.QUIT:
             running = False
 
@@ -538,7 +591,7 @@ while running:
 
     ## if player died and the explosion has finished, end game
     if player.lives == 0 and not death_explosion.alive():
-        running = False
+        end_display = True
         # menu_display = True
         # pygame.display.update()
 
